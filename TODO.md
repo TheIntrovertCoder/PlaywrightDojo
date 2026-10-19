@@ -8,7 +8,7 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 
 `/home/iambabu/Projects/mock-website` — SvelteKit v3, Svelte 5 runes, Tailwind CSS v4, TypeScript strict, Vite, Bun, Playwright e2e.
 
-## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 55/55 tests)
+## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 61/61 tests)
 
 | Module                  | Route                                  | Tests | Capabilities Covered                                                                               |
 | ----------------------- | -------------------------------------- | ----- | -------------------------------------------------------------------------------------------------- |
@@ -23,12 +23,13 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 | Tables                  | `/playwright/tables`                   | 5     | Row selection, column sorting, pagination, reset                                                   |
 | Auth                    | `/playwright/auth/login`, `/protected` | 4     | Login flow, protected route redirect, invalid credentials, logout                                  |
 | Visual                  | `/playwright/visual`                   | 5     | Hero banner, hover card states, status badges, form validation states, screenshot readiness        |
+| API Interception        | `/playwright/api`                      | 6     | `page.route()` interception, request body mocking, error responses, `APIRequestContext` direct API |
 
 ## Remaining Fundamentals Gaps (the "20% → 80%" backlog)
 
 These are UI E2E fundamentals not yet covered in the mock site:
 
-- [ ] **API request interception** — `page.route()` and `APIRequestContext` (no backend exists yet)
+- [x] **API request interception** — `page.route()` and `APIRequestContext` — DONE
 - [ ] **Cross-browser test matrix** — Playwright config currently runs one browser; add Chromium + Firefox + WebKit
 - [ ] **Mobile / responsive testing** — viewport emulation tests
 - [ ] **Soft assertions** — `expect.soft` for non-failing assertion batches
