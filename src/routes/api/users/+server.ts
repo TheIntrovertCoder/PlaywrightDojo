@@ -5,6 +5,7 @@ const users = [
 	{ id: 2, name: 'Grace Hopper', role: 'engineer' },
 	{ id: 3, name: 'Alan Turing', role: 'researcher' }
 ];
+let nextId = 4;
 
 export const GET: RequestHandler = async ({ url }) => {
 	const search = url.searchParams.get('search');
@@ -18,7 +19,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
 export const POST: RequestHandler = async ({ request }) => {
 	const body = (await request.json()) as { name: string; role: string };
-	const newUser = { id: users.length + 1, ...body };
+	const newUser = { id: nextId++, ...body };
 	users.push(newUser);
 	return new Response(JSON.stringify({ user: newUser }), {
 		status: 201,

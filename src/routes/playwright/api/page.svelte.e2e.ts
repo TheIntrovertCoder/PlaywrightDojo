@@ -7,7 +7,20 @@ test.describe('API Interception module', () => {
 
 	test('renders user list from API', async ({ page }) => {
 		await expect(page.locator('#users-table')).toBeVisible();
-		await expect(page.locator('#user-count')).toContainText('3 user(s)');
+
+		// Wait for the user count to load (the page fetches users on mount)
+		// Retry a few times in case other tests have temporarily polluted API state
+		await expect
+			.poll(
+				async () => {
+					const countText = (await page.locator('#user-count').textContent()) ?? '';
+					const userCount = Number(countText.match(/\d+/)?.[0] ?? 0);
+					return userCount;
+				},
+				{ timeout: 10000, intervals: [500, 1000, 2000] }
+			)
+			.toBeGreaterThanOrEqual(3);
+
 		await expect(page.locator('#user-1')).toContainText('Ada Lovelace');
 		await expect(page.locator('#user-2')).toContainText('Grace Hopper');
 		await expect(page.locator('#user-3')).toContainText('Alan Turing');
@@ -36,6 +49,14 @@ test.describe('API Interception module', () => {
 			const request = route.request();
 			if (request.method() === 'POST') {
 				capturedBody = request.postData();
+				// Fulfill the request so we don't actually POST to the shared API
+				// and pollute state for other tests
+				await route.fulfill({
+					status: 201,
+					contentType: 'application/json',
+					body: JSON.stringify({ user: { id: 999, name: 'Test User', role: 'tester' } })
+				});
+				return;
 			}
 			await route.continue();
 		});
@@ -98,6 +119,12 @@ test.describe('API Interception module', () => {
 		const verifyResponse = await request.get('/api/users');
 		const verifyBody = await verifyResponse.json();
 		expect(verifyBody.users.some((u: { name: string }) => u.name === 'API User')).toBeTruthy();
+
+		// Clean up: delete the created user so it doesn't affect other tests
+		const deleteResponse = await request.delete('/api/users', {
+			data: { id: createBody.user.id }
+		});
+		expect(deleteResponse.ok()).toBeTruthy();
 	});
 
 	test('deletes a user via APIRequestContext', async ({ request }) => {

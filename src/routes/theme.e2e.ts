@@ -126,7 +126,22 @@ test.describe('Theme switching', () => {
 			.locator('nav button')
 			.first()
 			.evaluate((el) => getComputedStyle(el).transitionDuration);
-		// Browser may report as "0.01ms" or "1e-05s" - both equal 0.01ms
-		expect(['0.01ms', '1e-05s']).toContain(transitionDuration);
+
+		// Parse comma-separated durations (e.g. "0.01ms, 0.01ms", "1e-05s, 1e-05s") to milliseconds
+		// Firefox reports "0.00001s", Chromium reports "0.01ms" or "1e-05s" — all equal 0.01ms
+		const durationsInMs = transitionDuration
+			.split(',')
+			.map((value) => value.trim())
+			.map((value) => {
+				const match = /^([\d.eE+-]+)(ms|s)$/.exec(value);
+				if (!match) throw new Error(`Unexpected transition duration: ${value}`);
+				const amount = Number(match[1]);
+				return match[2] === 's' ? amount * 1000 : amount;
+			});
+
+		// All durations should be effectively 0.01ms (≤ 0.02ms tolerance)
+		for (const duration of durationsInMs) {
+			expect(duration).toBeLessThanOrEqual(0.02);
+		}
 	});
 });

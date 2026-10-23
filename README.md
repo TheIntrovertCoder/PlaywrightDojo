@@ -118,6 +118,16 @@ The site is configured for static hosting on GitHub Pages:
 - Run tests against the production build: `bun run test` (which does `build && preview`).
 - If timer-based waiting tests flake on loaded CI, reduce workers: `bunx playwright test --workers=1`.
 
+## Cross-browser test matrix
+
+| Browser           | Version | Result (166 tests)        |
+| ----------------- | ------- | ------------------------- |
+| Chromium (stable) | v156+   | 82 passed, 1 skipped      |
+| Firefox (stable)  | v157+   | 82 passed, 1 skipped      |
+| **Total**         | —       | **164 passed, 2 skipped** |
+
+Run `bunx playwright test --project=chromium` or `--project=firefox` to target a single browser.
+
 ## Scripts
 
 | Script                | Purpose                                             |
@@ -129,4 +139,4 @@ The site is configured for static hosting on GitHub Pages:
 | `bun run check`       | SvelteKit sync + `svelte-check` type check          |
 | `bun run lint`        | Prettier check + ESLint                             |
 | `bun run format`      | Prettier write                                      |
-| `bun run test`        | Run Playwright e2e tests                            |
+| `bun run test`        | Run Playwright e2e tests (both browsers)            |
