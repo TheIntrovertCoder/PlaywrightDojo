@@ -1,4 +1,3 @@
-import { enhancedImages } from '@sveltejs/enhanced-img';
 import tailwindcss from '@tailwindcss/vite';
 import adapterAuto from '@sveltejs/adapter-auto';
 import adapterStatic from '@sveltejs/adapter-static';
@@ -11,7 +10,6 @@ const base: '' | `/${string}` = rawBasePath.startsWith('/') ? (rawBasePath as `/
 
 export default defineConfig({
 	plugins: [
-		enhancedImages(),
 		tailwindcss(),
 		sveltekit({
 			compilerOptions: {

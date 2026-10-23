@@ -19,7 +19,7 @@ Use it to practice writing assertions, handling async timing, piercing shadow DO
 | Layer           | Technology                                                                       |
 | --------------- | -------------------------------------------------------------------------------- |
 | Framework       | SvelteKit ^3.0.0, Svelte ^5.57.1 (runes mode)                                    |
-| Styling         | Tailwind CSS v4.3.0 (forms + typography plugins)                                 |
+| Styling         | Tailwind CSS v4.3.0 (forms plugin)                                               |
 | Language        | TypeScript (strict)                                                              |
 | Build tool      | Vite ^8.3.0                                                                      |
 | Adapter         | `@sveltejs/adapter-auto` (local/dev) / `@sveltejs/adapter-static` (GitHub Pages) |
@@ -49,7 +49,7 @@ bun run format
 bun run build && bun run preview
 
 # Run all Playwright e2e tests (builds, previews, then tests)
-bun test
+bun run test
 
 # Run a single test file
 bunx playwright test src/routes/playwright/forms/page.svelte.e2e.ts
@@ -81,7 +81,7 @@ bunx playwright test src/routes/playwright/forms/page.svelte.e2e.ts
 2. Create `src/routes/playwright/<topic>/page.svelte.e2e.ts` with focused e2e tests.
 3. Add the module to the shared registry in `src/lib/modules.ts` (nav, curriculum, and fallback are data-driven).
 4. Use `resolve()` from `$app/paths` for all internal links (required by `svelte/no-navigation-without-resolve`).
-5. Run `bun run check`, `bun run lint`, and `bun test` before committing.
+5. Run `bun run check`, `bun run lint`, and `bun run test` before committing.
 
 ## Known limitations & edge cases
 
@@ -96,7 +96,10 @@ These are documented so you don't mistake training-tool behavior for bugs:
 - **Forms validation** stops at the first error (name → email → terms), showing one error at a time.
 - **Tables** sort client-side in memory; row IDs travel with their data when reordered. Tests should assert row position/text, not a fixed ID-to-person mapping.
 - **The hover dropdown** only opens on mouse enter/leave — keyboard-only users cannot reveal it (accessibility gap).
-- **Test flakiness:** The "intercepts and modifies request body" API test can flake under parallel workers due to shared mock server state. Use `bunx playwright test --workers=1` for reliable runs.
+- **Test flakiness:** Two tests can flake under parallel workers:
+  - "intercepts and modifies request body" (API) — shared mock server state.
+  - "reveals dropdown on hover" (Interactions) — timing-sensitive hover.
+    Both pass in isolation. Use `bunx playwright test --workers=1` for reliable runs.
 - **Accessibility:** Modules were audited with `eslint-plugin-svelte` a11y rules. Remaining gaps include hover-only dropdowns and some clickable `<div>` elements that now carry `role="button"` + `tabindex={0}` where backported.
 
 ## Deployment (GitHub Pages)
@@ -112,7 +115,7 @@ The site is configured for static hosting on GitHub Pages:
 ## CI recommendations
 
 - Install Playwright system dependencies before running tests: `bunx playwright install-deps`.
-- Run tests against the production build: `bun test` (which does `build && preview`).
+- Run tests against the production build: `bun run test` (which does `build && preview`).
 - If timer-based waiting tests flake on loaded CI, reduce workers: `bunx playwright test --workers=1`.
 
 ## Scripts
@@ -126,4 +129,4 @@ The site is configured for static hosting on GitHub Pages:
 | `bun run check`       | SvelteKit sync + `svelte-check` type check          |
 | `bun run lint`        | Prettier check + ESLint                             |
 | `bun run format`      | Prettier write                                      |
-| `bun test`            | Run Playwright e2e tests                            |
+| `bun run test`        | Run Playwright e2e tests                            |
