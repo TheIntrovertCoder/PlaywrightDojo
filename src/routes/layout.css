@@ -1,3 +1,212 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+/* Dark mode variant: class-based on <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic design tokens — light defaults, dark overrides */
+@theme static {
+	/* Surfaces */
+	--color-canvas: #ffffff;
+	--color-surface: #ffffff;
+	--color-muted: #f3f4f6; /* gray-100 */
+	--color-subtle: #e5e7eb; /* gray-200 */
+
+	/* Foreground */
+	--color-fg: #111827; /* gray-900 */
+	--color-muted-fg: #4b5563; /* gray-600 */
+	--color-faint: #6b7280; /* gray-500 */
+
+	/* Borders / lines */
+	--color-line: #e5e7eb; /* gray-200 */
+	--color-line-strong: #d1d5db; /* gray-300 */
+
+	/* Brand (indigo) */
+	--color-brand: #4f46e5; /* indigo-600 */
+	--color-brand-strong: #4338ca; /* indigo-700 */
+	--color-brand-soft: #eef2ff; /* indigo-50 */
+
+	/* Status — use opaque tokens, dark overrides below */
+	--color-success-bg: #ecfdf5; /* green-50 */
+	--color-success-fg: #065f46; /* green-900 */
+	--color-success-border: #a7f3d0; /* green-200 */
+
+	--color-warning-bg: #fffbeb; /* amber-50 */
+	--color-warning-fg: #92400e; /* amber-900 */
+	--color-warning-border: #fde68a; /* amber-200 */
+
+	--color-error-bg: #fef2f2; /* red-50 */
+	--color-error-fg: #991b1b; /* red-900 */
+	--color-error-border: #fecaca; /* red-200 */
+
+	--color-info-bg: #eff6ff; /* blue-50 */
+	--color-info-fg: #1e3a8a; /* blue-900 */
+	--color-info-border: #bfdbfe; /* blue-200 */
+}
+
+/* Dark mode token overrides */
+.dark {
+	--color-canvas: #0f172a; /* slate-950 */
+	--color-surface: #1e293b; /* slate-800 */
+	--color-muted: #334155; /* slate-700 */
+	--color-subtle: #475569; /* slate-600 */
+
+	--color-fg: #f8fafc; /* slate-50 */
+	--color-muted-fg: #cbd5e1; /* slate-300 */
+	--color-faint: #94a3b8; /* slate-400 */
+
+	--color-line: #334155; /* slate-700 */
+	--color-line-strong: #475569; /* slate-600 */
+
+	--color-brand: #818cf8; /* indigo-400 */
+	--color-brand-strong: #a5b4fc; /* indigo-300 */
+	--color-brand-soft: #1e1b4b; /* indigo-950 */
+
+	--color-success-bg: #064e3b; /* green-900 */
+	--color-success-fg: #a7f3d0; /* green-200 */
+	--color-success-border: #065f46; /* green-800 */
+
+	--color-warning-bg: #78350f; /* amber-900 */
+	--color-warning-fg: #fde68a; /* amber-200 */
+	--color-warning-border: #92400e; /* amber-800 */
+
+	--color-error-bg: #7f1d1d; /* red-900 */
+	--color-error-fg: #fecaca; /* red-200 */
+	--color-error-border: #991b1b; /* red-800 */
+
+	--color-info-bg: #1e3a8a; /* blue-900 */
+	--color-info-fg: #bfdbfe; /* blue-200 */
+	--color-info-border: #1e40af; /* blue-800 */
+}
+
+/* Base page styles */
+:root {
+	color-scheme: light;
+}
+.dark {
+	color-scheme: dark;
+}
+
+body {
+	background-color: var(--color-canvas);
+	color: var(--color-fg);
+}
+
+/* Tailwind Forms plugin dark overrides — plugin hardcodes #fff backgrounds */
+.dark input:where([type='text']),
+.dark input:where(:not([type])),
+.dark input:where([type='email']),
+.dark input:where([type='url']),
+.dark input:where([type='password']),
+.dark input:where([type='number']),
+.dark input:where([type='date']),
+.dark input:where([type='datetime-local']),
+.dark input:where([type='month']),
+.dark input:where([type='search']),
+.dark input:where([type='tel']),
+.dark input:where([type='time']),
+.dark input:where([type='week']),
+.dark select:where([multiple]),
+.dark textarea,
+.dark select,
+.dark .form-input,
+.dark .form-textarea,
+.dark .form-select,
+.dark .form-multiselect {
+	background-color: var(--color-surface);
+	border-color: var(--color-line-strong);
+	color: var(--color-fg);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder,
+.dark .form-input::placeholder,
+.dark .form-textarea::placeholder {
+	color: var(--color-faint);
+	opacity: 1;
+}
+
+.dark input:where([type='checkbox']),
+.dark input:where([type='radio']),
+.dark .form-checkbox,
+.dark .form-radio {
+	background-color: var(--color-surface);
+	border-color: var(--color-line-strong);
+}
+
+.dark input:where([type='checkbox']):checked,
+.dark input:where([type='radio']):checked,
+.dark .form-checkbox:checked,
+.dark .form-radio:checked {
+	background-color: var(--color-brand);
+	border-color: transparent;
+}
+
+.dark input:where([type='checkbox']):focus,
+.dark input:where([type='radio']):focus,
+.dark .form-checkbox:focus,
+.dark .form-radio:focus {
+	--tw-ring-offset-color: var(--color-surface);
+	--tw-ring-color: var(--color-brand);
+}
+
+/* Focus rings use brand color in both modes */
+:root {
+	--tw-ring-color: var(--color-brand);
+}
+.dark {
+	--tw-ring-color: var(--color-brand);
+}
+
+/* Smooth theme transition — only for color/background/border, not layout */
+/* Apply to specific elements that actually change color, not * (avoids layout thrashing) */
+@layer base {
+	:root {
+		--theme-transition-duration: 200ms;
+		--theme-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.dark {
+		--theme-transition-duration: 200ms;
+		--theme-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Target only elements using semantic color tokens — they actually change on theme switch */
+	button,
+	a,
+	[class*='bg-'],
+	[class*='text-'],
+	[class*='border-'],
+	[class*='fill-'],
+	[class*='stroke-'],
+	[class*='ring-'],
+	input,
+	textarea,
+	select,
+	svg,
+	.card,
+	.nav,
+	nav,
+	header,
+	footer,
+	main,
+	section,
+	article,
+	aside,
+	div[class*='rounded'],
+	div[class*='shadow'] {
+		transition-property:
+			background-color, border-color, color, fill, stroke, outline-color, box-shadow;
+		transition-duration: var(--theme-transition-duration);
+		transition-timing-function: var(--theme-transition-easing);
+		will-change: background-color, border-color, color, fill, stroke, box-shadow;
+	}
+}
+
+/* Respect reduced motion — must come after @layer base to override custom properties */
+@media (prefers-reduced-motion: reduce) {
+	:root,
+	.dark {
+		--theme-transition-duration: 0.01ms;
+	}
+}
