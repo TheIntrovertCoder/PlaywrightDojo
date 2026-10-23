@@ -54,7 +54,7 @@
 		<iframe
 			id="demo-iframe"
 			src={resolve('/playwright/frames/iframe-content')}
-			class="h-48 w-full rounded-lg border border-line shadow-sm"
+			class="h-56 w-full rounded-lg border border-line shadow-sm"
 			title="Iframe demo content"
 		></iframe>
 	</section>

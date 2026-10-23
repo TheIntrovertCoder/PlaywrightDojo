@@ -17,6 +17,9 @@
 		return resolve(href);
 	}
 
+	// Hide navbar inside the iframe-content page (it inherits this layout)
+	const showNavbar = page.route.id !== '/playwright/frames/iframe-content';
+
 	onMount(() => {
 		theme.init();
 		return () => theme.destroy();
@@ -29,51 +32,53 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<nav class="sticky top-0 z-40 border-b border-line/50 bg-surface/90 backdrop-blur-md">
-	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-		<div class="flex h-16 items-center justify-between">
-			<div class="flex items-center gap-2">
-				<a href={resolve('/')} class="text-xl font-bold tracking-tight"
-					>Playwright<span class="text-brand">Learn</span></a
-				>
-			</div>
-			<div class="flex items-center gap-4">
-				<ThemeToggle />
-				<a
-					href={resolve('/')}
-					class="hidden text-sm font-medium text-brand hover:text-brand-strong md:inline">Home</a
-				>
-			</div>
-		</div>
-		<!-- Module links strip — horizontally scrollable on narrow screens -->
-		<nav
-			class="-mx-4 overflow-x-auto px-4 pb-2 whitespace-nowrap sm:mx-0 sm:px-0"
-			aria-label="Modules"
-		>
-			<ul class="flex items-center gap-4">
-				<li>
+{#if showNavbar}
+	<nav class="sticky top-0 z-40 border-b border-line/50 bg-surface/90 backdrop-blur-md">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+			<div class="flex h-16 items-center justify-between">
+				<div class="flex items-center gap-2">
+					<a href={resolve('/')} class="text-xl font-bold tracking-tight"
+						>Playwright<span class="text-brand">Learn</span></a
+					>
+				</div>
+				<div class="flex items-center gap-4">
+					<ThemeToggle />
 					<a
 						href={resolve('/')}
-						class="text-sm font-medium text-brand hover:text-brand-strong"
-						aria-current={page.url.pathname === '/' ? 'page' : undefined}
+						class="hidden text-sm font-medium text-brand hover:text-brand-strong md:inline">Home</a
 					>
-						Home
-					</a>
-				</li>
-				{#each modules as mod (mod.id)}
+				</div>
+			</div>
+			<!-- Module links strip — horizontally scrollable on narrow screens -->
+			<nav
+				class="-mx-4 overflow-x-auto px-4 pb-2 whitespace-nowrap sm:mx-0 sm:px-0"
+				aria-label="Modules"
+			>
+				<ul class="flex items-center gap-4">
 					<li>
 						<a
-							href={resolveModuleHref(mod.href)}
-							class="text-sm font-medium text-muted-fg hover:text-fg"
-							aria-current={page.url.pathname.startsWith(mod.href) ? 'page' : undefined}
+							href={resolve('/')}
+							class="text-sm font-medium text-brand hover:text-brand-strong"
+							aria-current={page.url.pathname === '/' ? 'page' : undefined}
 						>
-							{mod.shortTitle}
+							Home
 						</a>
 					</li>
-				{/each}
-			</ul>
-		</nav>
-	</div>
-</nav>
+					{#each modules as mod (mod.id)}
+						<li>
+							<a
+								href={resolveModuleHref(mod.href)}
+								class="text-sm font-medium text-muted-fg hover:text-fg"
+								aria-current={page.url.pathname.startsWith(mod.href) ? 'page' : undefined}
+							>
+								{mod.shortTitle}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</nav>
+		</div>
+	</nav>
+{/if}
 
 {@render children()}

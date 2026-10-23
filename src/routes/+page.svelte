@@ -8,7 +8,8 @@
 	let clickCount = $state(0);
 	let inputValue = $state('');
 	let isChecked = $state(false);
-	let selectedOption = $state('');
+	let selectedRadio = $state('');
+	let selectedPlan = $state('');
 	let modalOpen = $state(false);
 	let toastVisible = $state(false);
 
@@ -20,7 +21,8 @@
 		clickCount = 0;
 		inputValue = '';
 		isChecked = false;
-		selectedOption = '';
+		selectedRadio = '';
+		selectedPlan = '';
 	}
 
 	function openModal() {
@@ -159,7 +161,7 @@
 							<input
 								type="radio"
 								name="choice"
-								bind:group={selectedOption}
+								bind:group={selectedRadio}
 								value={option}
 								class="h-4 w-4 border-line-strong text-brand focus:ring-brand"
 							/>
@@ -168,7 +170,7 @@
 					{/each}
 				</div>
 				<p id="radio-status" class="mt-3 text-sm text-muted-fg">
-					Selected: <span class="font-mono">{selectedOption || '(none)'}</span>
+					Selected: <span class="font-mono">{selectedRadio || '(none)'}</span>
 				</p>
 				<p class="mt-2 text-xs text-faint">Test: select a radio, assert #radio-status</p>
 			</div>
@@ -181,7 +183,7 @@
 				>
 				<select
 					id="plan-select"
-					bind:value={selectedOption}
+					bind:value={selectedPlan}
 					class="w-full rounded-lg border border-line-strong px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
 				>
 					<option value="">Select...</option>
@@ -190,7 +192,7 @@
 					<option value="enterprise">Enterprise — $99/mo</option>
 				</select>
 				<p id="select-display" class="mt-3 text-sm text-muted-fg">
-					Plan: <span class="font-mono">{selectedOption || '(none)'}</span>
+					Plan: <span class="font-mono">{selectedPlan || '(none)'}</span>
 				</p>
 				<p class="mt-2 text-xs text-faint">Test: selectOption #plan-select, assert text</p>
 			</div>

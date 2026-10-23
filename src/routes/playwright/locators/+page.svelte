@@ -64,22 +64,28 @@
 	<section class="mb-12">
 		<h2 class="mb-4 text-xl font-semibold text-fg">getByLabel</h2>
 		<p class="mb-4 text-muted-fg">Locate form inputs by their associated label text.</p>
-		<div class="space-y-4">
-			<div class="flex items-start gap-3">
+		<div class="max-w-sm space-y-4">
+			<div>
+				<label for="username-input" class="mb-1 block text-sm font-medium text-muted-fg"
+					>Username</label
+				>
 				<input
 					id="username-input"
 					type="text"
-					class="h-4 w-4 border-line-strong text-brand focus:ring-brand"
+					autocomplete="username"
+					class="w-full rounded-lg border border-line-strong px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
 				/>
-				<label for="username-input" class="text-sm text-muted-fg"> Username </label>
 			</div>
-			<div class="flex items-start gap-3">
+			<div>
+				<label for="password-input" class="mb-1 block text-sm font-medium text-muted-fg"
+					>Password</label
+				>
 				<input
 					id="password-input"
 					type="password"
-					class="h-4 w-4 border-line-strong text-brand focus:ring-brand"
+					autocomplete="current-password"
+					class="w-full rounded-lg border border-line-strong px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
 				/>
-				<label for="password-input" class="text-sm text-muted-fg"> Password </label>
 			</div>
 		</div>
 	</section>

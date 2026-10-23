@@ -99,3 +99,47 @@ test.describe('Home page and navigation', () => {
 		await expect(cards).toHaveCount(11);
 	});
 });
+
+test.describe('Interactive Sandbox', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/');
+	});
+
+	test('radio group and select dropdown operate independently', async ({ page }) => {
+		// Select a radio option
+		await page.getByRole('radio', { name: 'Option B' }).check();
+		await expect(page.locator('#radio-status')).toContainText('Option B');
+		// Select dropdown should remain unselected
+		await expect(page.locator('#plan-select')).toHaveValue('');
+		await expect(page.locator('#select-display')).toContainText('(none)');
+
+		// Select a plan
+		await page.locator('#plan-select').selectOption('pro');
+		await expect(page.locator('#select-display')).toContainText('pro');
+		// Radio group should remain checked (independence = they don't affect each other)
+		await expect(page.getByRole('radio', { name: 'Option B' })).toBeChecked();
+		await expect(page.getByRole('radio', { name: 'Option A' })).not.toBeChecked();
+		await expect(page.getByRole('radio', { name: 'Option C' })).not.toBeChecked();
+		await expect(page.locator('#radio-status')).toContainText('Option B');
+	});
+
+	test('reset button clears all sandbox state', async ({ page }) => {
+		// Set some state
+		await page.locator('#increment-btn').click();
+		await page.locator('#name-input').fill('Test User');
+		await page.locator('#agree-checkbox').check();
+		await page.getByRole('radio', { name: 'Option A' }).check();
+		await page.locator('#plan-select').selectOption('enterprise');
+
+		// Click reset
+		await page.locator('#reset-btn').click();
+
+		// Verify everything is cleared
+		await expect(page.locator('#counter-display')).toHaveText('0');
+		await expect(page.locator('#input-display')).toContainText('(empty)');
+		await expect(page.locator('#agree-checkbox')).not.toBeChecked();
+		await expect(page.locator('#radio-status')).toContainText('(none)');
+		await expect(page.locator('#select-display')).toContainText('(none)');
+		await expect(page.locator('#plan-select')).toHaveValue('');
+	});
+});

@@ -22,6 +22,22 @@ test.describe('Locator Strategies module', () => {
 		await expect(page.getByLabel('Password')).toHaveValue('secret');
 	});
 
+	test('username and password inputs have adequate size for interaction', async ({ page }) => {
+		const usernameInput = page.getByLabel('Username');
+		const passwordInput = page.getByLabel('Password');
+
+		const usernameBox = await usernameInput.boundingBox();
+		const passwordBox = await passwordInput.boundingBox();
+
+		expect(usernameBox).not.toBeNull();
+		expect(passwordBox).not.toBeNull();
+		// Minimum reasonable dimensions for text inputs
+		expect(usernameBox!.width).toBeGreaterThanOrEqual(200);
+		expect(usernameBox!.height).toBeGreaterThanOrEqual(32);
+		expect(passwordBox!.width).toBeGreaterThanOrEqual(200);
+		expect(passwordBox!.height).toBeGreaterThanOrEqual(32);
+	});
+
 	test('getByText: paragraph and buttons', async ({ page }) => {
 		await expect(page.getByText('Welcome to the locator practice page.')).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Save changes' })).toBeVisible();

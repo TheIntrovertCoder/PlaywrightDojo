@@ -17,6 +17,16 @@ test.describe('iframes & Shadow DOM module', () => {
 		await expect(frame.locator('#frame-count')).toHaveText('Count: 1');
 	});
 
+	test('iframe does not render the parent navbar', async ({ page }) => {
+		const frame = page.frameLocator('#demo-iframe');
+
+		// Navbar should not exist inside the iframe
+		await expect(frame.locator('nav[aria-label="Modules"]')).toHaveCount(0);
+		// Content should be visible (not covered)
+		await expect(frame.locator('#frame-heading')).toBeVisible();
+		await expect(frame.locator('#frame-btn')).toBeVisible();
+	});
+
 	test('pierces shadow DOM', async ({ page }) => {
 		// Shadow DOM content is inside a shadow root — pierce via evaluate
 		const shadowText = await page.locator('#shadow-host').evaluate((el) => {
