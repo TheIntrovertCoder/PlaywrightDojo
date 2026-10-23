@@ -46,7 +46,7 @@
 				const filtered = search
 					? localUsers.filter((u) => u.name.toLowerCase().includes(search.toLowerCase()))
 					: localUsers;
-				users = filtered;
+				users = [...filtered]; // Create a copy to avoid mutating localUsers
 				total = filtered.length;
 				statusMessage = null;
 			} else {

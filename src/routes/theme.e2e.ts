@@ -58,9 +58,9 @@ test.describe('Theme switching', () => {
 		await page.emulateMedia({ colorScheme: 'light' });
 		await page.reload();
 
-		const navBgLight = await page
-			.locator('nav')
-			.evaluate((el) => getComputedStyle(el).backgroundColor);
+		// Target the main sticky nav (not the module strip)
+		const mainNav = page.locator('nav.sticky');
+		const navBgLight = await mainNav.evaluate((el) => getComputedStyle(el).backgroundColor);
 		const cardBgLight = await page
 			.locator('#card-1, .rounded-2xl')
 			.first()
@@ -76,9 +76,7 @@ test.describe('Theme switching', () => {
 		await page.emulateMedia({ colorScheme: 'dark' });
 		await page.reload();
 
-		const navBgDark = await page
-			.locator('nav')
-			.evaluate((el) => getComputedStyle(el).backgroundColor);
+		const navBgDark = await mainNav.evaluate((el) => getComputedStyle(el).backgroundColor);
 		const cardBgDark = await page
 			.locator('#card-1, .rounded-2xl')
 			.first()

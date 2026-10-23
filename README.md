@@ -1,6 +1,8 @@
 # Playwright Learning Hub
 
-A mock website built to help you learn **Playwright for end-to-end automation testing**. Each route isolates a specific Playwright capability — basics, forms, waiting, dialogs, locators, iframes/shadow DOM, interactions, tables, authentication, and visual testing — so you can write focused, repeatable tests against controlled UI instead of fighting a real production app.
+A mock website built to help you learn **Playwright for end-to-end automation testing**. Each route isolates a specific Playwright capability — basics, forms, waiting, dialogs, locators, iframes/shadow DOM, interactions, tables, authentication, visual testing, and API interception — so you can write focused, repeatable tests against controlled UI instead of fighting a real production app.
+
+**Source:** https://github.com/TheIntrovertCoder/mock-website-playwright
 
 ## Intention
 
@@ -14,16 +16,16 @@ Use it to practice writing assertions, handling async timing, piercing shadow DO
 
 ## Stack
 
-| Layer           | Technology                                                             |
-| --------------- | ---------------------------------------------------------------------- |
-| Framework       | SvelteKit ^3.0.0, Svelte ^5.57.1 (runes mode)                          |
-| Styling         | Tailwind CSS v4.3.0 (forms + typography plugins)                       |
-| Language        | TypeScript (strict)                                                    |
-| Build tool      | Vite ^8.3.0                                                            |
-| Adapter         | `@sveltejs/adapter-auto` (choose a platform adapter before deployment) |
-| Testing         | Playwright ^1.60.0 (e2e only)                                          |
-| Lint/format     | ESLint + Prettier + prettier-plugin-svelte/tailwindcss                 |
-| Package manager | Bun                                                                    |
+| Layer           | Technology                                                                       |
+| --------------- | -------------------------------------------------------------------------------- |
+| Framework       | SvelteKit ^3.0.0, Svelte ^5.57.1 (runes mode)                                    |
+| Styling         | Tailwind CSS v4.3.0 (forms + typography plugins)                                 |
+| Language        | TypeScript (strict)                                                              |
+| Build tool      | Vite ^8.3.0                                                                      |
+| Adapter         | `@sveltejs/adapter-auto` (local/dev) / `@sveltejs/adapter-static` (GitHub Pages) |
+| Testing         | Playwright ^1.60.0 (e2e only)                                                    |
+| Lint/format     | ESLint + Prettier + prettier-plugin-svelte/tailwindcss                           |
+| Package manager | Bun                                                                              |
 
 ## Getting started
 
@@ -71,12 +73,13 @@ bunx playwright test src/routes/playwright/forms/page.svelte.e2e.ts
 | `/playwright/auth/login`     | Auth flow                      | Login form, redirect on success                                                   |
 | `/playwright/auth/protected` | Protected routes               | `localStorage` session mock, redirect when unauthenticated                        |
 | `/playwright/visual`         | Visual testing                 | Hover states, badge colors, form validation states, screenshot readiness          |
+| `/playwright/api`            | API Interception               | `page.route()`, `route.fulfill()`, `route.continue()`, `APIRequestContext`        |
 
 ## Writing a new module
 
 1. Create `src/routes/playwright/<topic>/+page.svelte` with an interactive demo (Svelte 5 runes + Tailwind v4).
 2. Create `src/routes/playwright/<topic>/page.svelte.e2e.ts` with focused e2e tests.
-3. Add the module to the curriculum grid in `src/routes/+page.svelte` and the nav links in `src/routes/+layout.svelte`.
+3. Add the module to the shared registry in `src/lib/modules.ts` (nav, curriculum, and fallback are data-driven).
 4. Use `resolve()` from `$app/paths` for all internal links (required by `svelte/no-navigation-without-resolve`).
 5. Run `bun run check`, `bun run lint`, and `bun test` before committing.
 
@@ -84,7 +87,7 @@ bunx playwright test src/routes/playwright/forms/page.svelte.e2e.ts
 
 These are documented so you don't mistake training-tool behavior for bugs:
 
-- **No backend or API routes.** All state is client-side (Svelte `$state`, `localStorage` for auth). Good for learning frontend Playwright; not for API or database testing.
+- **API is a client-side mock with static fallback.** `/api/users` exists only in the local/dev build (`adapter-auto`). On GitHub Pages (`adapter-static`) the endpoint returns 404 and the API module automatically switches to in-browser seeded data with a banner. Good for learning frontend Playwright; not for API or database testing.
 - **Auth is a client-side mock.** `/playwright/auth/protected` checks `localStorage` in `onMount` and redirects via `window.location.assign()`. There is no real session expiration, CSRF protection, or password hashing. Do not use this pattern in production.
 - **JS dialogs (`alert`/`confirm`/`prompt`)** may be blocked or behave differently in some headless browser contexts and cross-origin iframes.
 - **Shadow DOM** is attached via `$effect` in the browser, so SSR HTML won't contain shadow content until hydration completes. This Playwright version lacks `locator.shadow()`, so the frames test pierces shadow roots via `page.evaluate()`.
@@ -93,8 +96,18 @@ These are documented so you don't mistake training-tool behavior for bugs:
 - **Forms validation** stops at the first error (name → email → terms), showing one error at a time.
 - **Tables** sort client-side in memory; row IDs travel with their data when reordered. Tests should assert row position/text, not a fixed ID-to-person mapping.
 - **The hover dropdown** only opens on mouse enter/leave — keyboard-only users cannot reveal it (accessibility gap).
-- **`adapter-auto` build warning** — no production environment adapter was detected. Pick an adapter (Vercel, Netlify, Node, etc.) before deploying.
+- **Test flakiness:** The "intercepts and modifies request body" API test can flake under parallel workers due to shared mock server state. Use `bunx playwright test --workers=1` for reliable runs.
 - **Accessibility:** Modules were audited with `eslint-plugin-svelte` a11y rules. Remaining gaps include hover-only dropdowns and some clickable `<div>` elements that now carry `role="button"` + `tabindex={0}` where backported.
+
+## Deployment (GitHub Pages)
+
+The site is configured for static hosting on GitHub Pages:
+
+- **Build command:** `bun run build:pages` (sets `GITHUB_PAGES=true BASE_PATH=/mock-website-playwright`)
+- **Output directory:** `build/` (contains `404.html` fallback, prerendered module pages, and assets)
+- **Workflow:** `.github/workflows/deploy.yml` builds with Bun, uploads artifacts via `actions/upload-pages-artifact`, and deploys via `actions/deploy-pages`
+- **Live URL:** `https://theintrovertcoder.github.io/mock-website-playwright/`
+- **Static limitations:** The `/api/users` endpoint is not available on Pages; the API module shows a "Static demo mode" banner and uses in-browser seeded data. All other modules work identically.
 
 ## CI recommendations
 
@@ -104,12 +117,13 @@ These are documented so you don't mistake training-tool behavior for bugs:
 
 ## Scripts
 
-| Script            | Purpose                                    |
-| ----------------- | ------------------------------------------ |
-| `bun run dev`     | Start Vite dev server                      |
-| `bun run build`   | Production Vite build                      |
-| `bun run preview` | Preview production build                   |
-| `bun run check`   | SvelteKit sync + `svelte-check` type check |
-| `bun run lint`    | Prettier check + ESLint                    |
-| `bun run format`  | Prettier write                             |
-| `bun test`        | Run Playwright e2e tests                   |
+| Script                | Purpose                                             |
+| --------------------- | --------------------------------------------------- |
+| `bun run dev`         | Start Vite dev server                               |
+| `bun run build`       | Production Vite build (local, uses adapter-auto)    |
+| `bun run build:pages` | Static build for GitHub Pages (uses adapter-static) |
+| `bun run preview`     | Preview production build                            |
+| `bun run check`       | SvelteKit sync + `svelte-check` type check          |
+| `bun run lint`        | Prettier check + ESLint                             |
+| `bun run format`      | Prettier write                                      |
+| `bun test`            | Run Playwright e2e tests                            |

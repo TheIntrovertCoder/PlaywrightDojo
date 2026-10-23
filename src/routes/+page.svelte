@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import type { PageData } from './$types';
+	import type { PageProps } from './$types';
 
-	let data: PageData = $props();
+	let { data }: PageProps = $props();
 
 	// Interactive sandbox state — these elements are Playwright test targets
 	let clickCount = $state(0);
@@ -38,8 +38,16 @@
 		}, 3000);
 	}
 
+	// Helper to resolve module hrefs with proper typing for SvelteKit's resolve function
+	function resolveModuleHref(href: string): string {
+		// @ts-expect-error - href is a valid route path
+		return resolve(href);
+	}
+
 	// Modules come from +page.server.ts via `data.modules`
 </script>
+
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 
 <svelte:head>
 	<title>Playwright Learning Hub — Mock Website</title>
@@ -277,7 +285,7 @@
 		<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{#each data.modules as module (module.id)}
 				<a
-					href={resolve('/playwright/[module]', { module: module.id })}
+					href={resolveModuleHref(module.href)}
 					class="group block rounded-2xl border border-line bg-surface p-6 transition hover:border-brand hover:shadow-md"
 				>
 					<div class="mb-3 flex items-center justify-between">

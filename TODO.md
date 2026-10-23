@@ -8,23 +8,25 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 
 `/home/iambabu/Projects/mock-website` — SvelteKit v3, Svelte 5 runes, Tailwind CSS v4, TypeScript strict, Vite, Bun, Playwright e2e.
 
-## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 69/69 tests)
+**Source:** https://github.com/TheIntrovertCoder/mock-website-playwright
 
-| Module                  | Route                                  | Tests | Capabilities Covered                                                                               |
-| ----------------------- | -------------------------------------- | ----- | -------------------------------------------------------------------------------------------------- |
-| Hub (landing + sandbox) | `/`                                    | —     | Hero, nav, interactive sandbox (button counter, text input, checkbox, radio, select, modal, toast) |
-| Basics                  | `/playwright/basics`                   | 6     | `goto`, `click`, `toBeVisible`, `toHaveText`, `toHaveURL`, navigation links                        |
-| Forms                   | `/playwright/forms`                    | 9     | `fill`, `pressSequentially`, `check`, `selectOption`, validation errors, submit, reset             |
-| Waiting                 | `/playwright/waiting`                  | 4     | Load states, delayed content, flash message visibility, `toBeHidden`                               |
-| Dialogs & Modals        | `/playwright/dialogs`                  | 7     | JS alert/confirm/prompt dialogs, custom modal open/close                                           |
-| Locators                | `/playwright/locators`                 | 7     | `getByRole`, `getByLabel`, `getByText`, `getByTestId`, chaining, filtering                         |
-| Frames                  | `/playwright/frames`                   | 3     | `frameLocator` for iframes, shadow DOM piercing via `page.evaluate()`                              |
-| Interactions            | `/playwright/interactions`             | 4     | `hover()`, `dragTo()`, keyboard shortcuts (`Control+KeyK`), `keyboard.down()`/`up()`               |
-| Tables                  | `/playwright/tables`                   | 5     | Row selection, column sorting, pagination, reset                                                   |
-| Auth                    | `/playwright/auth/login`, `/protected` | 4     | Login flow, protected route redirect, invalid credentials, logout                                  |
-| Visual                  | `/playwright/visual`                   | 5     | Hero banner, hover card states, status badges, form validation states, screenshot readiness        |
-| API Interception        | `/playwright/api`                      | 6     | `page.route()` interception, request body mocking, error responses, `APIRequestContext` direct API |
-| Theme Switching         | (global)                               | 6     | System/light/dark modes, localStorage persistence, prefers-color-scheme, reduced-motion respect    |
+## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 79/79 tests)
+
+| Module                  | Route                                  | Tests | Capabilities Covered                                                                                                                                           |
+| ----------------------- | -------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hub (landing + sandbox) | `/`                                    | 9     | Hero, nav, interactive sandbox (button counter, text input, checkbox, radio, select, modal, toast), curriculum grid (11 cards), nav strip with 11 module links |
+| Basics                  | `/playwright/basics`                   | 6     | `goto`, `click`, `toBeVisible`, `toHaveText`, `toHaveURL`, navigation links                                                                                    |
+| Forms                   | `/playwright/forms`                    | 9     | `fill`, `pressSequentially`, `check`, `selectOption`, validation errors, submit, reset, file upload                                                            |
+| Waiting                 | `/playwright/waiting`                  | 4     | Load states, delayed content, flash message visibility, `toBeHidden`                                                                                           |
+| Dialogs & Modals        | `/playwright/dialogs`                  | 7     | JS alert/confirm/prompt dialogs, custom modal open/close                                                                                                       |
+| Locators                | `/playwright/locators`                 | 7     | `getByRole`, `getByLabel`, `getByText`, `getByTestId`, chaining, filtering                                                                                     |
+| Frames                  | `/playwright/frames`                   | 3     | `frameLocator` for iframes, shadow DOM piercing via `page.evaluate()`                                                                                          |
+| Interactions            | `/playwright/interactions`             | 4     | `hover()`, `dragTo()`, keyboard shortcuts (`Control+KeyK`), `keyboard.down()`/`up()`                                                                           |
+| Tables                  | `/playwright/tables`                   | 5     | Row selection, column sorting, pagination, reset                                                                                                               |
+| Auth                    | `/playwright/auth/login`, `/protected` | 4     | Login flow, protected route redirect, invalid credentials, logout                                                                                              |
+| Visual                  | `/playwright/visual`                   | 5     | Hero banner, hover card states, status badges, form validation states, screenshot readiness                                                                    |
+| API Interception        | `/playwright/api`                      | 7     | `page.route()` interception, request body mocking, error responses, `APIRequestContext` direct API, static-mode fallback                                       |
+| Theme Switching         | (global)                               | 8     | System/light/dark modes, localStorage persistence, prefers-color-scheme, reduced-motion respect                                                                |
 
 ## Hosting / Deployment (GitHub Pages)
 
@@ -53,7 +55,7 @@ These are UI E2E fundamentals not yet covered in the mock site:
 ## Graphify Status (local code graph)
 
 - CLI installed at `~/.local/bin/graphify`
-- `graphify-out/graph.json` built via `graphify extract --code-only --no-cluster` — **278 nodes, 308 edges** (local AST, no API key)
+- `graphify-out/graph.json` built via `graphify extract --code-only --no-cluster` — **288 nodes, 332 edges** (local AST, no API key)
 - Semantic extraction blocked: OpenRouter account has no credits and no free model access; provided OpenAI key invalid
 - Usable commands: `graphify query`, `graphify explain`, `graphify path`, `graphify affected`, `graphify god-nodes`
 - **Workflow**: always run `graphify extract ... --code-only --no-cluster` before and after each coherent change; use graph queries instead of grep for structure/impact analysis

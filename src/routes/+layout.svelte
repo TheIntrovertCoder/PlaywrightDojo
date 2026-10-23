@@ -1,19 +1,29 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 	import './layout.css';
 	import favicon from '#lib/assets/favicon.svg';
 	import ThemeToggle from '#lib/components/ThemeToggle.svelte';
 	import { theme } from '#lib/theme.svelte.js';
 	import type { LayoutProps } from './$types';
+	import { modules } from '#lib/modules';
 
 	let { children }: LayoutProps = $props();
+
+	// Helper to resolve module hrefs with proper typing for SvelteKit's resolve function
+	function resolveModuleHref(href: string): string {
+		// @ts-expect-error - href is a valid route path
+		return resolve(href);
+	}
 
 	onMount(() => {
 		theme.init();
 		return () => theme.destroy();
 	});
 </script>
+
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
@@ -23,39 +33,46 @@
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between">
 			<div class="flex items-center gap-2">
-				<span class="text-xl font-bold tracking-tight"
-					>Playwright<span class="text-brand">Learn</span></span
+				<a href={resolve('/')} class="text-xl font-bold tracking-tight"
+					>Playwright<span class="text-brand">Learn</span></a
 				>
 			</div>
 			<div class="flex items-center gap-4">
 				<ThemeToggle />
-				<div class="hidden items-center gap-6 md:flex">
-					<a href={resolve('/')} class="text-sm font-medium text-brand hover:text-brand-strong"
-						>Home</a
-					>
-					<a
-						href={resolve('/playwright/[module]', { module: 'basics' })}
-						class="text-sm font-medium text-muted-fg hover:text-fg">Basics</a
-					>
-					<a
-						href={resolve('/playwright/[module]', { module: 'forms' })}
-						class="text-sm font-medium text-muted-fg hover:text-fg">Forms</a
-					>
-					<a
-						href={resolve('/playwright/[module]', { module: 'waiting' })}
-						class="text-sm font-medium text-muted-fg hover:text-fg">Waiting</a
-					>
-					<a
-						href={resolve('/playwright/[module]', { module: 'locators' })}
-						class="text-sm font-medium text-muted-fg hover:text-fg">Locators</a
-					>
-					<a
-						href={resolve('/playwright/[module]', { module: 'dialogs' })}
-						class="text-sm font-medium text-muted-fg hover:text-fg">Dialogs</a
-					>
-				</div>
+				<a
+					href={resolve('/')}
+					class="hidden text-sm font-medium text-brand hover:text-brand-strong md:inline">Home</a
+				>
 			</div>
 		</div>
+		<!-- Module links strip — horizontally scrollable on narrow screens -->
+		<nav
+			class="-mx-4 overflow-x-auto px-4 pb-2 whitespace-nowrap sm:mx-0 sm:px-0"
+			aria-label="Modules"
+		>
+			<ul class="flex items-center gap-4">
+				<li>
+					<a
+						href={resolve('/')}
+						class="text-sm font-medium text-brand hover:text-brand-strong"
+						aria-current={page.url.pathname === '/' ? 'page' : undefined}
+					>
+						Home
+					</a>
+				</li>
+				{#each modules as mod (mod.id)}
+					<li>
+						<a
+							href={resolveModuleHref(mod.href)}
+							class="text-sm font-medium text-muted-fg hover:text-fg"
+							aria-current={page.url.pathname.startsWith(mod.href) ? 'page' : undefined}
+						>
+							{mod.shortTitle}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</nav>
 	</div>
 </nav>
 

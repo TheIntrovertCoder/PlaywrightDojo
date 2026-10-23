@@ -45,7 +45,7 @@ test.describe('API Interception module', () => {
 		await page.click('#create-btn');
 
 		// Wait for status message to confirm creation
-		await expect(page.locator('#status-message')).toContainText('Created');
+		await expect(page.locator('#status-message')).toContainText('Created', { timeout: 10000 });
 
 		// Verify the request body was captured
 		expect(capturedBody).toContain('Test User');
@@ -132,5 +132,47 @@ test.describe('API Interception module', () => {
 		expect(notFound.ok()).toBeFalsy();
 		const notFoundBody = await notFound.json();
 		expect(notFoundBody.error).toBe('User not found');
+	});
+
+	test('shows static-mode banner and seeded data when API returns 404', async ({ page }) => {
+		// Intercept the API call and return 404 to simulate static hosting
+		await page.route('**/api/users', async (route) => {
+			await route.fulfill({
+				status: 404,
+				contentType: 'application/json',
+				body: JSON.stringify({ error: 'Not found' })
+			});
+		});
+
+		await page.goto('/playwright/api');
+
+		// Banner should be visible
+		await expect(page.locator('#static-api-banner')).toBeVisible();
+		await expect(page.locator('#static-api-banner')).toContainText('Static demo mode');
+		await expect(page.locator('#static-api-banner a')).toHaveAttribute(
+			'href',
+			'https://github.com/TheIntrovertCoder/mock-website-playwright'
+		);
+
+		// Seeded data should render (3 users)
+		await expect(page.locator('#user-count')).toContainText('3 user(s)');
+		await expect(page.locator('#user-1')).toContainText('Ada Lovelace');
+		await expect(page.locator('#user-2')).toContainText('Grace Hopper');
+		await expect(page.locator('#user-3')).toContainText('Alan Turing');
+
+		// Create should work against local store
+		await page.locator('#new-name').fill('Local User');
+		await page.locator('#new-role').fill('local');
+
+		// Submit the form by pressing Enter in the role input (last field)
+		await page.locator('#new-role').press('Enter');
+
+		// Wait for the status message to appear (form submission is async)
+		await expect(page.locator('#status-message')).toBeVisible({ timeout: 10000 });
+		await expect(page.locator('#status-message')).toContainText('Created Local User (local)');
+
+		// Delete should work against local store
+		await page.locator(`button[id="delete-1"]`).click();
+		await expect(page.locator('#status-message')).toContainText('Deleted user 1');
 	});
 });

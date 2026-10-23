@@ -1,60 +1,15 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { modules } from '#lib/modules';
 
-	const modules: Record<string, { title: string; description: string; topics: string[] }> = {
-		basics: {
-			title: 'Basics',
-			description: 'Navigation, clicks, assertions, page title, and URL checks.',
-			topics: ['goto', 'click', 'toBeVisible', 'toHaveText', 'toHaveURL']
-		},
-		forms: {
-			title: 'Forms',
-			description:
-				'Text inputs, textarea, checkboxes, radio groups, selects, file upload, validation.',
-			topics: ['fill', 'pressSequentially', 'selectOption', 'check', 'setInputFiles']
-		},
-		waiting: {
-			title: 'Waiting & Timing',
-			description: 'Load states, delayed content, async buttons, network-dependent elements.',
-			topics: ['waitForLoadState', 'waitForResponse', 'toBeHidden', 'toContainText']
-		},
-		locators: {
-			title: 'Locator Strategies',
-			description: 'getByRole, getByLabel, getByText, getByTestId, chaining, filtering.',
-			topics: ['getByRole', 'getByLabel', 'getByTestId', 'filter', 'locator chaining']
-		},
-		dialogs: {
-			title: 'Dialogs & Modals',
-			description: 'JS alerts, confirms, prompts, and custom modal handling.',
-			topics: ['dialog event', 'accept', 'dismiss', 'custom modal']
-		},
-		frames: {
-			title: 'iframes & Shadow DOM',
-			description: 'Frame locators, nested frames, shadow DOM piercing.',
-			topics: ['frameLocator', 'nested frames', 'shadow DOM']
-		},
-		interactions: {
-			title: 'Complex Interactions',
-			description: 'Hover, drag-and-drop, keyboard shortcuts, modifier keys.',
-			topics: ['hover', 'dragTo', 'press', 'Shift/Ctrl click']
-		},
-		tables: {
-			title: 'Data Tables',
-			description: 'Row/cell selection, sorting, pagination, dynamic data.',
-			topics: ['row iteration', 'cell assertions', 'sorting', 'pagination']
-		},
-		auth: {
-			title: 'Authentication',
-			description: 'Login flows, protected routes, storageState, session handling.',
-			topics: ['login', 'storageState', 'protected routes', 'logout']
-		},
-		visual: {
-			title: 'Visual Testing',
-			description: 'Screenshots, video, trace, complex layouts, animations.',
-			topics: ['screenshot', 'toHaveScreenshot', 'video', 'trace']
-		}
-	};
+	// Helper to resolve module hrefs with proper typing for SvelteKit's resolve function
+	function resolveModuleHref(href: string): string {
+		// @ts-expect-error - href is a valid route path
+		return resolve(href);
+	}
 </script>
+
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 
 <svelte:head>
 	<title>Playwright Module — Learning Hub</title>
@@ -63,24 +18,39 @@
 <main class="mx-auto max-w-2xl px-4 py-12">
 	<h1 class="mb-4 text-3xl font-bold tracking-tight text-fg">Module Page</h1>
 	<p class="mb-8 text-lg text-muted-fg">
-		This is a stub for the <code class="rounded bg-subtle px-1.5">[module]</code> route. Each module will
-		have its own interactive demo and Playwright tests.
+		This is a stub for the <code class="rounded bg-subtle px-1.5">[module]</code> route. Each module has
+		its own interactive demo and Playwright tests — click a card below to visit it.
 	</p>
 
-	<h2 class="mb-3 text-lg font-semibold text-fg">Planned modules</h2>
-	<ul class="mb-8 list-disc space-y-2 pl-5 text-sm text-muted-fg">
-		{#each Object.values(modules) as mod (mod.title)}
-			<li>
-				<strong>{mod.title}</strong> — {mod.description}
-			</li>
+	<h2 class="mb-3 text-lg font-semibold text-fg">Available modules</h2>
+	<div class="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+		{#each modules as mod (mod.id)}
+			<a
+				href={resolveModuleHref(mod.href)}
+				class="group block rounded-2xl border border-line bg-surface p-6 transition hover:border-brand hover:shadow-md"
+			>
+				<div class="mb-3 flex items-center justify-between">
+					<span class="text-sm font-semibold text-brand group-hover:text-brand-strong"
+						>{mod.title}</span
+					>
+					<svg
+						class="h-4 w-4 text-faint group-hover:text-brand"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"
+						></path>
+					</svg>
+				</div>
+				<p class="mb-3 line-clamp-2 text-sm text-muted-fg">{mod.description}</p>
+				<ul class="space-y-1 text-xs text-faint">
+					{#each mod.topics as topic (topic)}
+						<li>• {topic}</li>
+					{/each}
+				</ul>
+			</a>
 		{/each}
-	</ul>
-
-	<div class="rounded-xl border border-warning-border bg-warning-bg p-6">
-		<h3 class="mb-3 font-bold text-fg">Coming soon</h3>
-		<p class="text-sm text-warning-fg">
-			Click a module link from the home page to navigate here once the demo is built.
-		</p>
 	</div>
 
 	<a
@@ -90,3 +60,13 @@
 		← Back to home
 	</a>
 </main>
+
+<style>
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		overflow: hidden;
+	}
+</style>
