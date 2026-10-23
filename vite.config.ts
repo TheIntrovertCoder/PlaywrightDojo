@@ -1,8 +1,13 @@
 import { enhancedImages } from '@sveltejs/enhanced-img';
 import tailwindcss from '@tailwindcss/vite';
-import adapter from '@sveltejs/adapter-auto';
+import adapterAuto from '@sveltejs/adapter-auto';
+import adapterStatic from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+
+const isGithubPages = process.env.GITHUB_PAGES === 'true';
+const rawBasePath = process.env.BASE_PATH ?? '';
+const base: '' | `/${string}` = rawBasePath.startsWith('/') ? (rawBasePath as `/${string}`) : '';
 
 export default defineConfig({
 	plugins: [
@@ -15,10 +20,18 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 
-			// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
-			// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-			// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-			adapter: adapter()
+			// Use adapter-static for GitHub Pages, adapter-auto for local/dev.
+			adapter: isGithubPages ? adapterStatic({ fallback: '404.html' }) : adapterAuto(),
+
+			// Base path for GitHub Pages project sites (e.g. /mock-website-playwright).
+			// Empty string in dev/local to keep root-relative links working normally.
+			paths: { base },
+
+			// The [module] stub route is not linked from anywhere (real modules are at /playwright/basics, etc.)
+			// so it won't be crawled. Ignore it to avoid prerender failure.
+			prerender: {
+				handleUnseenRoutes: 'ignore'
+			}
 		})
 	]
 });

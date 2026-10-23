@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
 	const modules: Record<string, { title: string; description: string; topics: string[] }> = {
 		basics: {
 			title: 'Basics',
@@ -59,14 +61,14 @@
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-4 py-12">
-	<h1 class="mb-4 text-3xl font-bold tracking-tight text-gray-900">Module Page</h1>
-	<p class="mb-8 text-lg text-gray-600">
-		This is a stub for the <code class="rounded bg-gray-100 px-1.5">[module]</code> route. Each module
-		will have its own interactive demo and Playwright tests.
+	<h1 class="mb-4 text-3xl font-bold tracking-tight text-fg">Module Page</h1>
+	<p class="mb-8 text-lg text-muted-fg">
+		This is a stub for the <code class="rounded bg-subtle px-1.5">[module]</code> route. Each module will
+		have its own interactive demo and Playwright tests.
 	</p>
 
-	<h2 class="mb-3 text-lg font-semibold text-gray-900">Planned modules</h2>
-	<ul class="mb-8 list-disc space-y-2 pl-5 text-sm text-gray-600">
+	<h2 class="mb-3 text-lg font-semibold text-fg">Planned modules</h2>
+	<ul class="mb-8 list-disc space-y-2 pl-5 text-sm text-muted-fg">
 		{#each Object.values(modules) as mod (mod.title)}
 			<li>
 				<strong>{mod.title}</strong> — {mod.description}
@@ -74,15 +76,17 @@
 		{/each}
 	</ul>
 
-	<div class="rounded-xl border border-amber-200 bg-amber-50 p-6">
-		<h3 class="mb-3 font-bold text-gray-900">Coming soon</h3>
-		<p class="text-sm text-gray-700">
+	<div class="rounded-xl border border-warning-border bg-warning-bg p-6">
+		<h3 class="mb-3 font-bold text-fg">Coming soon</h3>
+		<p class="text-sm text-warning-fg">
 			Click a module link from the home page to navigate here once the demo is built.
 		</p>
 	</div>
 
-	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-	<a href="/" class="mt-6 inline-block text-sm font-medium text-indigo-600 hover:text-indigo-900">
+	<a
+		href={resolve('/')}
+		class="mt-6 inline-block text-sm font-medium text-brand hover:text-brand-strong"
+	>
 		← Back to home
 	</a>
 </main>

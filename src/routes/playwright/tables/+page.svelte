@@ -62,22 +62,22 @@
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">
-	<h1 class="mb-6 text-3xl font-bold tracking-tight text-gray-900">Data Tables</h1>
-	<p class="mb-10 text-lg text-gray-600">
+	<h1 class="mb-6 text-3xl font-bold tracking-tight text-fg">Data Tables</h1>
+	<p class="mb-10 text-lg text-muted-fg">
 		Practice Playwright table interactions: row/cell selection, sorting, pagination, and dynamic
 		data.
 	</p>
 
 	<!-- Table -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">User table</h2>
-		<table id="users-table" class="w-full border-collapse border border-gray-200">
+		<h2 class="mb-4 text-xl font-semibold text-fg">User table</h2>
+		<table id="users-table" class="w-full border-collapse border border-line">
 			<thead>
-				<tr class="bg-gray-50">
+				<tr class="bg-muted">
 					<th
 						id="col-name"
 						onclick={() => sortBy('name')}
-						class="cursor-pointer border border-gray-200 px-3 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-100"
+						class="cursor-pointer border border-line px-3 py-2 text-left text-sm font-medium text-muted-fg hover:bg-subtle"
 					>
 						Name
 						{#if sortColumn === 'name'}
@@ -87,7 +87,7 @@
 					<th
 						id="col-role"
 						onclick={() => sortBy('role')}
-						class="cursor-pointer border border-gray-200 px-3 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-100"
+						class="cursor-pointer border border-line px-3 py-2 text-left text-sm font-medium text-muted-fg hover:bg-subtle"
 					>
 						Role
 						{#if sortColumn === 'role'}
@@ -97,7 +97,7 @@
 					<th
 						id="col-status"
 						onclick={() => sortBy('status')}
-						class="cursor-pointer border border-gray-200 px-3 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-100"
+						class="cursor-pointer border border-line px-3 py-2 text-left text-sm font-medium text-muted-fg hover:bg-subtle"
 					>
 						Status
 						{#if sortColumn === 'status'}
@@ -112,27 +112,27 @@
 						id={`row-${user.id}`}
 						onclick={() => selectRow(user.id)}
 						class={`
-							border border-gray-200
-							${selectedRowId === user.id ? 'bg-indigo-50' : 'bg-white hover:bg-gray-50'}
+							border border-line
+							${selectedRowId === user.id ? 'bg-brand-soft' : 'bg-surface hover:bg-muted'}
 							cursor-pointer
 						`}
 					>
-						<td class="px-3 py-2 text-sm text-gray-700">{user.name}</td>
-						<td class="px-3 py-2 text-sm text-gray-700">{user.role}</td>
-						<td class="px-3 py-2 text-sm text-gray-700">{user.status}</td>
+						<td class="px-3 py-2 text-sm text-muted-fg">{user.name}</td>
+						<td class="px-3 py-2 text-sm text-muted-fg">{user.role}</td>
+						<td class="px-3 py-2 text-sm text-muted-fg">{user.status}</td>
 					</tr>
 				{/each}
 			</tbody>
 		</table>
-		<p id="selected-row" class="mt-3 text-sm text-gray-600">
+		<p id="selected-row" class="mt-3 text-sm text-muted-fg">
 			Selected row: {selectedRowId ?? 'none'}
 		</p>
 	</section>
 
 	<!-- Pagination -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">Pagination</h2>
-		<p class="mb-4 text-gray-600">
+		<h2 class="mb-4 text-xl font-semibold text-fg">Pagination</h2>
+		<p class="mb-4 text-muted-fg">
 			Page {page} of {totalPages} ({sortedUsers.length} total users)
 		</p>
 		<div class="flex gap-2">
@@ -140,7 +140,7 @@
 				id="prev-page"
 				onclick={() => goToPage(Math.max(1, page - 1))}
 				disabled={page === 1}
-				class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+				class="rounded-lg border border-line-strong px-3 py-2 text-sm text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 			>
 				Prev
 			</button>
@@ -148,7 +148,7 @@
 				id="next-page"
 				onclick={() => goToPage(Math.min(totalPages, page + 1))}
 				disabled={page === totalPages}
-				class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-300 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+				class="rounded-lg border border-line-strong px-3 py-2 text-sm text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 			>
 				Next
 			</button>
@@ -160,7 +160,7 @@
 		<button
 			id="reset-btn"
 			onclick={reset}
-			class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+			class="rounded-lg border border-line-strong px-4 py-2 text-sm font-medium text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none"
 		>
 			Reset table
 		</button>

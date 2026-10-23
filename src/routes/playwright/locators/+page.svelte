@@ -26,27 +26,27 @@
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">
-	<h1 class="mb-6 text-3xl font-bold tracking-tight text-gray-900">Locator Strategies</h1>
-	<p class="mb-10 text-lg text-gray-600">
+	<h1 class="mb-6 text-3xl font-bold tracking-tight text-fg">Locator Strategies</h1>
+	<p class="mb-10 text-lg text-muted-fg">
 		Practice Playwright locators: getByRole, getByLabel, getByText, getByTestId, chaining, and
 		filtering.
 	</p>
 
 	<!-- Section: getByRole -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">getByRole</h2>
-		<p class="mb-4 text-gray-600">Locate elements by their ARIA role and accessible name.</p>
+		<h2 class="mb-4 text-xl font-semibold text-fg">getByRole</h2>
+		<p class="mb-4 text-muted-fg">Locate elements by their ARIA role and accessible name.</p>
 		<div class="space-y-3">
 			<button
 				id="submit-role-btn"
-				class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+				class="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-strong focus:ring-2 focus:ring-brand focus:outline-none"
 			>
 				Submit request
 			</button>
 			<a
 				id="help-link"
 				href={resolve('/')}
-				class="text-sm text-indigo-600 underline hover:text-indigo-900"
+				class="text-sm text-brand underline hover:text-brand-strong"
 			>
 				Help center
 			</a>
@@ -54,7 +54,7 @@
 				id="search-role-input"
 				type="text"
 				placeholder="Search..."
-				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+				class="w-full rounded-lg border border-line-strong px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
 				aria-label="Search input"
 			/>
 		</div>
@@ -62,43 +62,43 @@
 
 	<!-- Section: getByLabel -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">getByLabel</h2>
-		<p class="mb-4 text-gray-600">Locate form inputs by their associated label text.</p>
+		<h2 class="mb-4 text-xl font-semibold text-fg">getByLabel</h2>
+		<p class="mb-4 text-muted-fg">Locate form inputs by their associated label text.</p>
 		<div class="space-y-4">
 			<div class="flex items-start gap-3">
 				<input
 					id="username-input"
 					type="text"
-					class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+					class="h-4 w-4 border-line-strong text-brand focus:ring-brand"
 				/>
-				<label for="username-input" class="text-sm text-gray-700"> Username </label>
+				<label for="username-input" class="text-sm text-muted-fg"> Username </label>
 			</div>
 			<div class="flex items-start gap-3">
 				<input
 					id="password-input"
 					type="password"
-					class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+					class="h-4 w-4 border-line-strong text-brand focus:ring-brand"
 				/>
-				<label for="password-input" class="text-sm text-gray-700"> Password </label>
+				<label for="password-input" class="text-sm text-muted-fg"> Password </label>
 			</div>
 		</div>
 	</section>
 
 	<!-- Section: getByText -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">getByText</h2>
-		<p class="mb-4 text-gray-600">Locate elements by their visible text content.</p>
+		<h2 class="mb-4 text-xl font-semibold text-fg">getByText</h2>
+		<p class="mb-4 text-muted-fg">Locate elements by their visible text content.</p>
 		<div class="space-y-3">
-			<p id="welcome-text" class="text-gray-700">Welcome to the locator practice page.</p>
+			<p id="welcome-text" class="text-muted-fg">Welcome to the locator practice page.</p>
 			<button
 				id="save-text-btn"
-				class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+				class="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-strong focus:ring-2 focus:ring-brand focus:outline-none"
 			>
 				Save changes
 			</button>
 			<button
 				id="cancel-text-btn"
-				class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-300 focus:outline-none"
+				class="rounded-lg border border-line-strong px-4 py-2 text-sm font-medium text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none"
 			>
 				Cancel
 			</button>
@@ -107,24 +107,24 @@
 
 	<!-- Section: getByTestId -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">getByTestId</h2>
-		<p class="mb-4 text-gray-600">
+		<h2 class="mb-4 text-xl font-semibold text-fg">getByTestId</h2>
+		<p class="mb-4 text-muted-fg">
 			Locate elements by their data-testid attribute — ideal for stable test targets.
 		</p>
 		<div class="space-y-3">
 			<div
 				id="user-card"
 				data-testid="user-card"
-				class="rounded-lg border border-gray-200 bg-gray-50 p-4"
+				class="rounded-lg border border-line bg-muted p-4"
 			>
-				<p class="text-sm text-gray-700">User profile card</p>
+				<p class="text-sm text-muted-fg">User profile card</p>
 			</div>
 			<div
 				id="status-badge"
 				data-testid="status-badge"
-				class="inline-flex items-center gap-1.5 rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700"
+				class="inline-flex items-center gap-1.5 rounded-md bg-success-bg px-2 py-1 text-xs font-medium text-success-fg"
 			>
-				<span class="h-2 w-2 rounded-full bg-green-500"></span>
+				<span class="h-2 w-2 rounded-full bg-success-fg"></span>
 				<span>Active</span>
 			</div>
 		</div>
@@ -132,10 +132,10 @@
 
 	<!-- Section: chaining & filtering -->
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-semibold text-gray-900">Chaining & filtering</h2>
-		<p class="mb-4 text-gray-600">Chain locators to narrow scope, then filter results.</p>
+		<h2 class="mb-4 text-xl font-semibold text-fg">Chaining & filtering</h2>
+		<p class="mb-4 text-muted-fg">Chain locators to narrow scope, then filter results.</p>
 		<div>
-			<label for="filter-input" class="mb-1 block text-sm font-medium text-gray-700"
+			<label for="filter-input" class="mb-1 block text-sm font-medium text-muted-fg"
 				>Filter items</label
 			>
 			<input
@@ -144,23 +144,23 @@
 				bind:value={filterValue}
 				placeholder="Filter by name..."
 				oninput={handleFilterInput}
-				class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+				class="w-full rounded-lg border border-line-strong px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
 			/>
 		</div>
 		<ul id="item-list" class="mt-4 space-y-2">
 			{#each filteredItems as item (item.id)}
 				<li
 					data-testid={`item-${item.id}`}
-					class="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3"
+					class="flex items-center justify-between rounded-lg border border-line bg-surface p-3"
 				>
-					<span class="text-sm text-gray-700">{item.name}</span>
-					<span class="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600">
+					<span class="text-sm text-muted-fg">{item.name}</span>
+					<span class="rounded-full bg-subtle px-2 py-0.5 text-[10px] font-medium text-faint">
 						{item.category}
 					</span>
 				</li>
 			{/each}
 		</ul>
-		<p id="item-count" class="mt-2 text-sm text-gray-600">
+		<p id="item-count" class="mt-2 text-sm text-muted-fg">
 			{filteredItems.length} item(s) matching
 		</p>
 	</section>
