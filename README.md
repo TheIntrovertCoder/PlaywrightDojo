@@ -2,8 +2,6 @@
 
 A mock website built to help you learn **Playwright for end-to-end automation testing**. Each route isolates a specific Playwright capability — basics, forms, waiting, dialogs, locators, iframes/shadow DOM, interactions, tables, authentication, visual testing, and API interception — so you can write focused, repeatable tests against controlled UI instead of fighting a real production app.
 
-**Source:** https://github.com/TheIntrovertCoder/mock-website-playwright
-
 ## Intention
 
 This is a **training ground, not a production app**. Every module:
@@ -120,11 +118,11 @@ The site is configured for static hosting on GitHub Pages:
 
 ## Cross-browser test matrix
 
-| Browser           | Version | Result (166 tests)        |
+| Browser           | Version | Result (168 tests)        |
 | ----------------- | ------- | ------------------------- |
-| Chromium (stable) | v156+   | 82 passed, 1 skipped      |
-| Firefox (stable)  | v157+   | 82 passed, 1 skipped      |
-| **Total**         | —       | **164 passed, 2 skipped** |
+| Chromium (stable) | v156+   | 83 passed, 1 skipped      |
+| Firefox (stable)  | v157+   | 83 passed, 1 skipped      |
+| **Total**         | —       | **166 passed, 2 skipped** |
 
 Run `bunx playwright test --project=chromium` or `--project=firefox` to target a single browser.
 

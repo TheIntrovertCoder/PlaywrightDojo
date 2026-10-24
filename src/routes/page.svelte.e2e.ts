@@ -98,6 +98,20 @@ test.describe('Home page and navigation', () => {
 		const cards = page.locator('main a[href*="playwright/"]');
 		await expect(cards).toHaveCount(11);
 	});
+
+	test('footer shows source link with correct attributes', async ({ page }) => {
+		const footer = page.locator('footer');
+		await expect(footer).toBeVisible();
+
+		const sourceLink = footer.locator('a', { hasText: 'Source on GitHub' });
+		await expect(sourceLink).toBeVisible();
+		await expect(sourceLink).toHaveAttribute(
+			'href',
+			'https://github.com/TheIntrovertCoder/mock-website-playwright'
+		);
+		await expect(sourceLink).toHaveAttribute('target', '_blank');
+		await expect(sourceLink).toHaveAttribute('rel', 'noopener noreferrer');
+	});
 });
 
 test.describe('Interactive Sandbox', () => {

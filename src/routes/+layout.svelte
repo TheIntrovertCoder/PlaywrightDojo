@@ -17,8 +17,8 @@
 		return resolve(href);
 	}
 
-	// Hide navbar inside the iframe-content page (it inherits this layout)
-	const showNavbar = page.route.id !== '/playwright/frames/iframe-content';
+	// Hide navbar & footer inside the iframe-content page (it inherits this layout)
+	const showSiteChrome = page.route.id !== '/playwright/frames/iframe-content';
 
 	onMount(() => {
 		theme.init();
@@ -32,7 +32,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#if showNavbar}
+{#if showSiteChrome}
 	<nav class="sticky top-0 z-40 border-b border-line/50 bg-surface/90 backdrop-blur-md">
 		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div class="flex h-16 items-center justify-between">
@@ -81,4 +81,25 @@
 	</nav>
 {/if}
 
-{@render children()}
+<div class="flex min-h-dvh flex-col">
+	<div class="flex-1">
+		{@render children()}
+	</div>
+	{#if showSiteChrome}
+		<footer class="border-t border-line/50 bg-surface/50">
+			<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+				<p class="text-center text-sm text-muted-fg">
+					<a
+						href="https://github.com/TheIntrovertCoder/mock-website-playwright"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-brand underline hover:text-brand-strong focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none"
+						aria-label="View source on GitHub (opens in a new tab)"
+					>
+						Source on GitHub
+					</a>
+				</p>
+			</div>
+		</footer>
+	{/if}
+</div>
