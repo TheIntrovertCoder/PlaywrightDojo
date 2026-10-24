@@ -104,10 +104,10 @@ These are documented so you don't mistake training-tool behavior for bugs:
 
 The site is configured for static hosting on GitHub Pages:
 
-- **Build command:** `bun run build:pages` (sets `GITHUB_PAGES=true BASE_PATH=/mock-website-playwright`)
+- **Build command:** `bun run build:pages` (sets `GITHUB_PAGES=true BASE_PATH=/PlaywrightLearn`)
 - **Output directory:** `build/` (contains `404.html` fallback, prerendered module pages, and assets)
 - **Workflow:** `.github/workflows/deploy.yml` builds with Bun, uploads artifacts via `actions/upload-pages-artifact`, and deploys via `actions/deploy-pages`
-- **Live URL:** `https://theintrovertcoder.github.io/mock-website-playwright/`
+- **Live URL:** `https://theintrovertcoder.github.io/PlaywrightLearn/`
 - **Static limitations:** The `/api/users` endpoint is not available on Pages; the API module shows a "Static demo mode" banner and uses in-browser seeded data. All other modules work identically.
 
 ## CI recommendations

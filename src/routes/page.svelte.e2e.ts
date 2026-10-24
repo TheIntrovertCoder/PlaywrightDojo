@@ -107,7 +107,7 @@ test.describe('Home page and navigation', () => {
 		await expect(sourceLink).toBeVisible();
 		await expect(sourceLink).toHaveAttribute(
 			'href',
-			'https://github.com/TheIntrovertCoder/mock-website-playwright'
+			'https://github.com/TheIntrovertCoder/PlaywrightLearn'
 		);
 		await expect(sourceLink).toHaveAttribute('target', '_blank');
 		await expect(sourceLink).toHaveAttribute('rel', 'noopener noreferrer');

@@ -8,7 +8,7 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 
 `/home/iambabu/Projects/mock-website` — SvelteKit v3, Svelte 5 runes, Tailwind CSS v4, TypeScript strict, Vite, Bun, Playwright e2e.
 
-**Source:** https://github.com/TheIntrovertCoder/mock-website-playwright
+**Source:** https://github.com/TheIntrovertCoder/PlaywrightLearn
 
 ## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 166/166 tests, 2 skipped)
 
@@ -31,12 +31,12 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 ## Hosting / Deployment (GitHub Pages)
 
 - **Adapter**: conditional `adapter-static` (for Pages) / `adapter-auto` (local/dev) in `vite.config.ts`
-- **Base path**: `/mock-website-playwright` set via `BASE_PATH` env var at build time; empty string for local dev
+- **Base path**: `/PlaywrightLearn` set via `BASE_PATH` env var at build time; empty string for local dev
 - **Prerendering**: all routes prerendered (`+layout.ts: export const prerender = true`)
 - **Fallback**: `404.html` generated for client-side routing on static hosting
 - **API fallback**: `/playwright/api` detects 404 on `/api/users` and switches to in-browser seeded data with a banner; create/delete/search work locally
 - **Workflow**: `.github/workflows/deploy.yml` — Bun, configure-pages, build with `GITHUB_PAGES=true`, upload-pages-artifact, deploy-pages
-- **Local static verification**: `bun run build:pages` (sets `GITHUB_PAGES=true BASE_PATH=/mock-website-playwright`)
+- **Local static verification**: `bun run build:pages` (sets `GITHUB_PAGES=true BASE_PATH=/PlaywrightLearn`)
 
 ## Remaining Fundamentals Gaps (the "20% → 80%" backlog)
 

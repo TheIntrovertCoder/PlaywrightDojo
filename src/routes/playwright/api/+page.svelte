@@ -158,9 +158,9 @@
 		>
 			<strong>Static demo mode</strong> — using in-browser data.
 			<a
-				href="https://github.com/TheIntrovertCoder/mock-website-playwright"
+				href="https://github.com/TheIntrovertCoder/PlaywrightLearn"
 				target="_blank"
-				rel="noopener"
+				rel="noopener noreferrer"
 				class="ml-2 underline hover:no-underline"
 			>
 				Run locally

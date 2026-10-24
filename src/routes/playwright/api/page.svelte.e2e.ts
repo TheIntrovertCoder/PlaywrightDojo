@@ -185,7 +185,7 @@ test.describe('API Interception module', () => {
 		await expect(page.locator('#static-api-banner')).toContainText('Static demo mode');
 		await expect(page.locator('#static-api-banner a')).toHaveAttribute(
 			'href',
-			'https://github.com/TheIntrovertCoder/mock-website-playwright'
+			'https://github.com/TheIntrovertCoder/PlaywrightLearn'
 		);
 
 		// Seeded data should render (3 users)
