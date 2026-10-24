@@ -1,4 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function selectProPlan(page: Page) {
+	const proRadio = page.locator('input[name="plan"][value="pro"]');
+	await proRadio.check();
+	await expect(proRadio).toBeChecked();
+	await expect(page.locator('#plan-display')).toContainText('Selected: pro');
+}
 
 test.describe('Forms module', () => {
 	test.beforeEach(async ({ page }) => {
@@ -35,10 +42,7 @@ test.describe('Forms module', () => {
 	});
 
 	test('selects a radio option', async ({ page }) => {
-		const proRadio = page.locator('input[name="plan"][value="pro"]');
-		await proRadio.check();
-		await expect(proRadio).toBeChecked();
-		await expect(page.locator('#plan-display')).toContainText('Selected: pro');
+		await selectProPlan(page);
 	});
 
 	test('selects an option from a dropdown', async ({ page }) => {
@@ -82,10 +86,7 @@ test.describe('Forms module', () => {
 
 	test('radio group and select dropdown operate independently', async ({ page }) => {
 		// Select a plan via radio group
-		const proRadio = page.locator('input[name="plan"][value="pro"]');
-		await proRadio.check();
-		await expect(proRadio).toBeChecked();
-		await expect(page.locator('#plan-display')).toContainText('Selected: pro');
+		await selectProPlan(page);
 
 		// Select a department via dropdown
 		const select = page.locator('#department-select');
@@ -93,7 +94,7 @@ test.describe('Forms module', () => {
 		await expect(select).toHaveValue('design');
 
 		// Plan radio should remain selected (independence)
-		await expect(proRadio).toBeChecked();
+		await expect(page.locator('input[name="plan"][value="pro"]')).toBeChecked();
 		await expect(page.locator('#plan-display')).toContainText('Selected: pro');
 
 		// Reset clears both

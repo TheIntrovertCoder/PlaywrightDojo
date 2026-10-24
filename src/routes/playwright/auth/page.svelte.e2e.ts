@@ -1,4 +1,10 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function login(page: Page) {
+	await page.locator('#username').fill('test');
+	await page.locator('#password').fill('test123');
+	await page.click('#login-btn');
+}
 
 test.describe('Authentication module', () => {
 	test.beforeEach(async ({ page }) => {
@@ -6,9 +12,7 @@ test.describe('Authentication module', () => {
 	});
 
 	test('login flow redirects to protected page', async ({ page }) => {
-		await page.locator('#username').fill('test');
-		await page.locator('#password').fill('test123');
-		await page.click('#login-btn');
+		await login(page);
 
 		await expect(page).toHaveURL('/playwright/auth/protected');
 		await expect(page.locator('h1')).toContainText('Protected Page');
@@ -32,9 +36,7 @@ test.describe('Authentication module', () => {
 
 	test('logout clears session', async ({ page }) => {
 		// Log in first
-		await page.locator('#username').fill('test');
-		await page.locator('#password').fill('test123');
-		await page.click('#login-btn');
+		await login(page);
 		await expect(page).toHaveURL('/playwright/auth/protected');
 
 		// Log out

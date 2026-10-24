@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import Modal from '#lib/components/Modal.svelte';
+	import ModuleCard from '#lib/components/ModuleCard.svelte';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -40,16 +42,8 @@
 		}, 3000);
 	}
 
-	// Helper to resolve module hrefs with proper typing for SvelteKit's resolve function
-	function resolveModuleHref(href: string): string {
-		// @ts-expect-error - href is a valid route path
-		return resolve(href);
-	}
-
 	// Modules come from +page.server.ts via `data.modules`
 </script>
-
-<!-- eslint-disable svelte/no-navigation-without-resolve -->
 
 <svelte:head>
 	<title>PlaywrightDojo — Mock Website</title>
@@ -207,43 +201,18 @@
 				>
 					Open Modal
 				</button>
-				{#if modalOpen}
-					<div
-						id="modal"
-						class="fixed inset-0 z-50 flex items-center justify-center"
-						aria-modal="true"
-						role="dialog"
-						aria-labelledby="modal-title"
-					>
-						<div
-							id="modal-backdrop"
-							class="fixed inset-0 bg-black/40 backdrop-blur-sm"
-							role="button"
-							aria-label="Close modal"
-							tabindex={0}
+				<Modal open={modalOpen} title="Modal Title" onclose={closeModal}>
+					<p>This is a custom modal. You can close it by clicking outside or the button below.</p>
+					{#snippet footer()}
+						<button
+							id="close-modal-btn"
 							onclick={closeModal}
-							onkeydown={(e) => {
-								if (e.key === 'Enter' || e.key === ' ') {
-									e.preventDefault();
-									closeModal();
-								}
-							}}
-						></div>
-						<div class="w-full max-w-md rounded-2xl border border-line bg-surface p-6 shadow-lg">
-							<h3 id="modal-title" class="mb-3 font-bold text-fg">Modal Title</h3>
-							<p class="mb-6 text-muted-fg">
-								This is a custom modal. You can close it by clicking outside or the button below.
-							</p>
-							<button
-								id="close-modal-btn"
-								onclick={closeModal}
-								class="w-full rounded-lg border border-line-strong px-4 py-2 text-sm font-medium text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none"
-							>
-								Close Modal
-							</button>
-						</div>
-					</div>
-				{/if}
+							class="w-full rounded-lg border border-line-strong px-4 py-2 text-sm font-medium text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none"
+						>
+							Close Modal
+						</button>
+					{/snippet}
+				</Modal>
 				<p class="mt-2 text-xs text-faint">Test: open modal, assert #modal visible, close it</p>
 			</div>
 
@@ -286,45 +255,8 @@
 
 		<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{#each data.modules as module (module.id)}
-				<a
-					href={resolveModuleHref(module.href)}
-					class="group block rounded-2xl border border-line bg-surface p-6 transition hover:border-brand hover:shadow-md"
-				>
-					<div class="mb-3 flex items-center justify-between">
-						<span class="text-sm font-semibold text-brand group-hover:text-brand-strong"
-							>{module.title}</span
-						>
-						<svg
-							class="h-4 w-4 text-faint group-hover:text-brand"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							><path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M9 5l7 7-7 7"
-							></path></svg
-						>
-					</div>
-					<p class="mb-3 line-clamp-2 text-sm text-muted-fg">{module.description}</p>
-					<ul class="space-y-1 text-xs text-faint">
-						{#each module.topics as topic (topic)}
-							<li>• {topic}</li>
-						{/each}
-					</ul>
-				</a>
+				<ModuleCard {module} />
 			{/each}
 		</div>
 	</section>
 </main>
-
-<style>
-	.line-clamp-2 {
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		line-clamp: 2;
-		overflow: hidden;
-	}
-</style>

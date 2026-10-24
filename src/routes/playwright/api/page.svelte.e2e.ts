@@ -1,4 +1,10 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function expectSeededUsers(page: Page) {
+	await expect(page.locator('#user-1')).toContainText('Ada Lovelace');
+	await expect(page.locator('#user-2')).toContainText('Grace Hopper');
+	await expect(page.locator('#user-3')).toContainText('Alan Turing');
+}
 
 test.describe('API Interception module', () => {
 	test.beforeEach(async ({ page }) => {
@@ -21,9 +27,7 @@ test.describe('API Interception module', () => {
 			)
 			.toBeGreaterThanOrEqual(3);
 
-		await expect(page.locator('#user-1')).toContainText('Ada Lovelace');
-		await expect(page.locator('#user-2')).toContainText('Grace Hopper');
-		await expect(page.locator('#user-3')).toContainText('Alan Turing');
+		await expectSeededUsers(page);
 	});
 
 	test('intercepts API response with page.route()', async ({ page }) => {
@@ -190,9 +194,7 @@ test.describe('API Interception module', () => {
 
 		// Seeded data should render (3 users)
 		await expect(page.locator('#user-count')).toContainText('3 user(s)');
-		await expect(page.locator('#user-1')).toContainText('Ada Lovelace');
-		await expect(page.locator('#user-2')).toContainText('Grace Hopper');
-		await expect(page.locator('#user-3')).toContainText('Alan Turing');
+		await expectSeededUsers(page);
 
 		// Create should work against local store
 		await page.locator('#new-name').fill('Local User');

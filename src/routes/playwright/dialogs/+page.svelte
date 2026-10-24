@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Modal from '#lib/components/Modal.svelte';
+
 	let lastDialogResult = $state<string | null>(null);
 	let modalOpen = $state(false);
 	let confirmResult = $state<string | null>(null);
@@ -102,50 +104,27 @@
 		>
 			Open modal
 		</button>
-		{#if modalOpen}
-			<div
-				id="modal"
-				class="fixed inset-0 z-50 flex items-center justify-center"
-				aria-modal="true"
-				role="dialog"
-				aria-labelledby="modal-title"
-			>
-				<div
-					id="modal-backdrop"
-					class="fixed inset-0 bg-black/40 backdrop-blur-sm"
-					role="button"
-					aria-label="Close modal"
-					tabindex={0}
-					onclick={closeModal}
-					onkeydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') {
-							e.preventDefault();
-							closeModal();
-						}
-					}}
-				></div>
-				<div class="w-full max-w-md rounded-2xl border border-line bg-surface p-6 shadow-lg">
-					<h3 id="modal-title" class="mb-3 font-bold text-fg">Modal Title</h3>
-					<p class="mb-6 text-muted-fg">This is a custom modal. Confirm or dismiss it below.</p>
-					<div class="flex gap-3">
-						<button
-							id="modal-confirm-btn"
-							onclick={handleModalConfirm}
-							class="flex-1 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-strong focus:ring-2 focus:ring-brand focus:outline-none"
-						>
-							Confirm
-						</button>
-						<button
-							id="modal-cancel-btn"
-							onclick={closeModal}
-							class="flex-1 rounded-lg border border-line-strong px-4 py-2 text-sm font-medium text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none"
-						>
-							Cancel
-						</button>
-					</div>
+		<Modal open={modalOpen} title="Modal Title" onclose={closeModal}>
+			<p>This is a custom modal. Confirm or dismiss it below.</p>
+			{#snippet footer()}
+				<div class="flex gap-3">
+					<button
+						id="modal-confirm-btn"
+						onclick={handleModalConfirm}
+						class="flex-1 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-strong focus:ring-2 focus:ring-brand focus:outline-none"
+					>
+						Confirm
+					</button>
+					<button
+						id="modal-cancel-btn"
+						onclick={closeModal}
+						class="flex-1 rounded-lg border border-line-strong px-4 py-2 text-sm font-medium text-muted-fg hover:bg-muted focus:ring-2 focus:ring-line-strong focus:outline-none"
+					>
+						Cancel
+					</button>
 				</div>
-			</div>
-		{/if}
+			{/snippet}
+		</Modal>
 		<p id="modal-result" class="mt-4 text-sm text-muted-fg">
 			Modal result: <span id="modal-result-text">{confirmResult || 'none'}</span>
 		</p>

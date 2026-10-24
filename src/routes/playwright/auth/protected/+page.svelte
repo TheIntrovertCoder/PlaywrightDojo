@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 
@@ -8,7 +9,7 @@
 	onMount(() => {
 		const token = localStorage.getItem('auth_token');
 		if (!token) {
-			void window.location.assign(resolve('/playwright/auth/login'));
+			void goto(resolve('/playwright/auth/login'));
 			return;
 		}
 		authenticated = true;
@@ -21,7 +22,7 @@
 		localStorage.removeItem('auth_user');
 		authenticated = false;
 		username = '';
-		void window.location.assign(resolve('/playwright/auth/login'));
+		void goto(resolve('/playwright/auth/login'));
 	}
 </script>
 
@@ -64,7 +65,7 @@
 			<button
 				id="login-btn"
 				onclick={() => {
-					void window.location.assign(resolve('/playwright/auth/login'));
+					void goto(resolve('/playwright/auth/login'));
 				}}
 				class="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-strong focus:ring-2 focus:ring-brand focus:outline-none"
 			>

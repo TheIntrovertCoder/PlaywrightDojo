@@ -4,20 +4,23 @@
  */
 
 export type ThemePreference = 'light' | 'dark' | 'system';
-export type ResolvedTheme = 'light' | 'dark';
+type ResolvedTheme = 'light' | 'dark';
 
 const STORAGE_KEY = 'theme';
+const THEME_PREFERENCES: readonly string[] = ['light', 'dark', 'system'];
+
+function isThemePreference(value: unknown): value is ThemePreference {
+	return typeof value === 'string' && THEME_PREFERENCES.includes(value);
+}
 
 function readStoredPreference(): ThemePreference {
 	try {
 		const raw = localStorage.getItem(STORAGE_KEY);
-		if (raw === 'light' || raw === 'dark' || raw === 'system') {
-			return raw;
-		}
+		return isThemePreference(raw) ? raw : 'system';
 	} catch {
 		// localStorage unavailable (private browsing, etc.)
+		return 'system';
 	}
-	return 'system';
 }
 
 function getSystemTheme(): ResolvedTheme {
@@ -113,16 +116,3 @@ class ThemeStore {
 
 // Singleton instance
 export const theme = new ThemeStore();
-
-// Convenience helper for components that need reactive access
-export function useTheme() {
-	return {
-		get preference() {
-			return theme.preference;
-		},
-		get resolved() {
-			return theme.resolved;
-		},
-		set: (pref: ThemePreference) => theme.set(pref)
-	};
-}

@@ -1,4 +1,6 @@
 <script lang="ts">
+	// The only fetch target is a static, same-origin API route built with resolve().
+	// fallow-ignore-file security-sink
 	import { onMount } from 'svelte';
 	import { resolve } from '$app/paths';
 
@@ -23,38 +25,54 @@
 	// Use resolve() for all API URLs to respect base path
 	const apiUsersUrl = resolve('/api/users');
 
+	function filterLocalUsers(search: string) {
+		if (!search) return localUsers;
+		const term = search.toLowerCase();
+		return localUsers.filter((u) => u.name.toLowerCase().includes(term));
+	}
+
+	function showStaticUsers(search: string) {
+		staticMode = true;
+		const filtered = filterLocalUsers(search);
+		users = [...filtered]; // Create a copy to avoid mutating localUsers
+		total = filtered.length;
+		statusMessage = null;
+	}
+
+	function showLoadError() {
+		users = [];
+		total = 0;
+		statusMessage = 'Failed to load users';
+		statusType = 'error';
+	}
+
+	async function loadRemoteUsers(search: string): Promise<boolean> {
+		const url = search ? `${apiUsersUrl}?search=${encodeURIComponent(search)}` : apiUsersUrl;
+		const res = await fetch(url);
+		if (res.status === 404) {
+			// Static hosting: API endpoint doesn't exist
+			return false;
+		}
+		if (!res.ok) {
+			throw new Error(`HTTP ${res.status}`);
+		}
+		const data = await res.json();
+		users = data.users;
+		total = data.total;
+		staticMode = false;
+		statusMessage = null;
+		return true;
+	}
+
 	async function fetchUsers(search = '') {
 		isLoading = true;
 		try {
-			const url = search ? `${apiUsersUrl}?search=${encodeURIComponent(search)}` : apiUsersUrl;
-			const res = await fetch(url);
-			if (res.status === 404) {
-				// Static hosting: API endpoint doesn't exist
-				throw new Error('STATIC_MODE');
+			const apiAvailable = await loadRemoteUsers(search);
+			if (!apiAvailable) {
+				showStaticUsers(search);
 			}
-			if (!res.ok) {
-				throw new Error(`HTTP ${res.status}`);
-			}
-			const data = await res.json();
-			users = data.users;
-			total = data.total;
-			staticMode = false;
-			statusMessage = null;
-		} catch (err) {
-			if (err instanceof Error && err.message === 'STATIC_MODE') {
-				staticMode = true;
-				const filtered = search
-					? localUsers.filter((u) => u.name.toLowerCase().includes(search.toLowerCase()))
-					: localUsers;
-				users = [...filtered]; // Create a copy to avoid mutating localUsers
-				total = filtered.length;
-				statusMessage = null;
-			} else {
-				users = [];
-				total = 0;
-				statusMessage = 'Failed to load users';
-				statusType = 'error';
-			}
+		} catch {
+			showLoadError();
 		} finally {
 			isLoading = false;
 		}
@@ -95,6 +113,29 @@
 		isLoading = false;
 	}
 
+	function setStatus(message: string, type: 'success' | 'error') {
+		statusMessage = message;
+		statusType = type;
+	}
+
+	function removeLocalUser(id: number): boolean {
+		const index = localUsers.findIndex((u) => u.id === id);
+		if (index === -1) return false;
+		localUsers.splice(index, 1);
+		users = users.filter((u) => u.id !== id);
+		total = localUsers.length;
+		staticMode = true;
+		return true;
+	}
+
+	function deleteLocalUser(id: number) {
+		if (removeLocalUser(id)) {
+			setStatus(`Deleted user ${id}`, 'success');
+		} else {
+			setStatus('User not found', 'error');
+		}
+	}
+
 	async function deleteUser(id: number) {
 		const res = await fetch(apiUsersUrl, {
 			method: 'DELETE',
@@ -103,29 +144,16 @@
 		});
 		if (res.status === 404) {
 			// Static hosting fallback
-			const idx = localUsers.findIndex((u) => u.id === id);
-			if (idx !== -1) {
-				localUsers.splice(idx, 1);
-				users = users.filter((u) => u.id !== id);
-				total = localUsers.length;
-				statusMessage = `Deleted user ${id}`;
-				statusType = 'success';
-				staticMode = true;
-				return;
-			}
-			statusMessage = 'User not found';
-			statusType = 'error';
+			deleteLocalUser(id);
 			return;
 		}
 		const data = await res.json();
 		if (data.deleted) {
-			statusMessage = `Deleted user ${id}`;
-			statusType = 'success';
+			setStatus(`Deleted user ${id}`, 'success');
 			await fetchUsers();
-		} else {
-			statusMessage = data.error || 'Failed to delete';
-			statusType = 'error';
+			return;
 		}
+		setStatus(data.error || 'Failed to delete', 'error');
 	}
 
 	async function searchUsers(event: Event) {

@@ -24,18 +24,28 @@
 		draggedItem = null;
 	}
 
+	const MODIFIER_KEYS = new Set(['Control', 'Meta']);
+
+	function isModifierKey(event: KeyboardEvent): boolean {
+		return MODIFIER_KEYS.has(event.key);
+	}
+
+	function isShortcut(event: KeyboardEvent): boolean {
+		return (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k';
+	}
+
 	function handleKeydown(event: KeyboardEvent) {
-		if (event.key === 'Control' || event.key === 'Meta') {
+		if (isModifierKey(event)) {
 			ctrlHeld = true;
 		}
-		if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+		if (isShortcut(event)) {
 			event.preventDefault();
 			shortcutMessage = 'Cmd/Ctrl + K shortcut triggered';
 		}
 	}
 
 	function handleKeyup(event: KeyboardEvent) {
-		if (event.key === 'Control' || event.key === 'Meta') {
+		if (isModifierKey(event)) {
 			ctrlHeld = false;
 		}
 	}

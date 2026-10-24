@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 
 	let username = $state('');
@@ -13,7 +14,7 @@
 		if (username === 'test' && password === 'test123') {
 			localStorage.setItem('auth_token', 'fake-token-12345');
 			localStorage.setItem('auth_user', username);
-			void window.location.assign(resolve('/playwright/auth/protected'));
+			void goto(resolve('/playwright/auth/protected'));
 		} else {
 			error = 'Invalid username or password';
 		}

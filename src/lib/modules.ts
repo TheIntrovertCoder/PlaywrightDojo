@@ -103,6 +103,3 @@ export const modules: Module[] = [
 		topics: ['page.route', 'route.fulfill', 'route.continue', 'APIRequestContext']
 	}
 ];
-
-export const moduleById = new Map(modules.map((m) => [m.id, m]));
-export const moduleIds = modules.map((m) => m.id);
