@@ -52,7 +52,7 @@
 <!-- eslint-disable svelte/no-navigation-without-resolve -->
 
 <svelte:head>
-	<title>Playwright Learning Hub — Mock Website</title>
+	<title>PlaywrightDojo — Mock Website</title>
 </svelte:head>
 
 <main class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

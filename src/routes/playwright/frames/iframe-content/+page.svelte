@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>Iframe Content — Playwright Learning Hub</title>
+	<title>Iframe Content — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="p-6 text-center">

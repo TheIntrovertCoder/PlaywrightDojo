@@ -21,7 +21,7 @@ export default defineConfig({
 			// Use adapter-static for GitHub Pages, adapter-auto for local/dev.
 			adapter: isGithubPages ? adapterStatic({ fallback: '404.html' }) : adapterAuto(),
 
-			// Base path for GitHub Pages project sites (e.g. /PlaywrightLearn).
+			// Base path for GitHub Pages project sites (e.g. /PlaywrightDojo).
 			// Empty string in dev/local to keep root-relative links working normally.
 			paths: { base },
 

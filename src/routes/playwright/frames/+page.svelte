@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-	<title>iframes & Shadow DOM — Playwright Learning Hub</title>
+	<title>iframes & Shadow DOM — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">

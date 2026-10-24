@@ -1,5 +1,5 @@
 /**
- * Single source of truth for Playwright Learning Hub modules.
+ * Single source of truth for PlaywrightDojo modules.
  * Imported by nav, curriculum load, and the [module] fallback.
  */
 export interface Module {

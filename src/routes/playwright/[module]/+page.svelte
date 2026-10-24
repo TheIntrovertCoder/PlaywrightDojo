@@ -12,7 +12,7 @@
 <!-- eslint-disable svelte/no-navigation-without-resolve -->
 
 <svelte:head>
-	<title>Playwright Module — Learning Hub</title>
+	<title>Playwright Module — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-4 py-12">

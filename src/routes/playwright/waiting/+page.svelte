@@ -38,7 +38,7 @@
 </script>
 
 <svelte:head>
-	<title>Waiting & Timing — Playwright Learning Hub</title>
+	<title>Waiting & Timing — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">

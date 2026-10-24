@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>Protected — Playwright Learning Hub</title>
+	<title>Protected — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-md px-4 py-12">

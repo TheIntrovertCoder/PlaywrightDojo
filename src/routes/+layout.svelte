@@ -38,7 +38,7 @@
 			<div class="flex h-16 items-center justify-between">
 				<div class="flex items-center gap-2">
 					<a href={resolve('/')} class="text-xl font-bold tracking-tight"
-						>Playwright<span class="text-brand">Learn</span></a
+						>Playwright<span class="text-brand">Dojo</span></a
 					>
 				</div>
 				<div class="flex items-center gap-4">
@@ -90,7 +90,7 @@
 			<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 				<p class="text-center text-sm text-muted-fg">
 					<a
-						href="https://github.com/TheIntrovertCoder/PlaywrightLearn"
+						href="https://github.com/TheIntrovertCoder/PlaywrightDojo"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="text-brand underline hover:text-brand-strong focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none"

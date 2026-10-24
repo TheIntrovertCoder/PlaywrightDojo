@@ -1,4 +1,4 @@
-# Plan: Playwright Learning Mock Website — Website Fundamentals
+# PlaywrightDojo — TODO
 
 ## Main Objective
 
@@ -8,7 +8,7 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 
 `/home/iambabu/Projects/mock-website` — SvelteKit v3, Svelte 5 runes, Tailwind CSS v4, TypeScript strict, Vite, Bun, Playwright e2e.
 
-**Source:** https://github.com/TheIntrovertCoder/PlaywrightLearn
+**Source:** https://github.com/TheIntrovertCoder/PlaywrightDojo
 
 ## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 168/168 tests, 2 skipped)
 

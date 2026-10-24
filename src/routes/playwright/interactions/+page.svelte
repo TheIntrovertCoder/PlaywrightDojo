@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-	<title>Complex Interactions — Playwright Learning Hub</title>
+	<title>Complex Interactions — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">

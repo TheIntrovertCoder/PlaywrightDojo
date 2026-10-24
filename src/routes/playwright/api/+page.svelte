@@ -139,7 +139,7 @@
 </script>
 
 <svelte:head>
-	<title>API Interception — Playwright Learning Hub</title>
+	<title>API Interception — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">
@@ -158,7 +158,7 @@
 		>
 			<strong>Static demo mode</strong> — using in-browser data.
 			<a
-				href="https://github.com/TheIntrovertCoder/PlaywrightLearn"
+				href="https://github.com/TheIntrovertCoder/PlaywrightDojo"
 				target="_blank"
 				rel="noopener noreferrer"
 				class="ml-2 underline hover:no-underline"

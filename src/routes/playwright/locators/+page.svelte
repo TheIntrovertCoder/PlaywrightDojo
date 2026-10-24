@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-	<title>Locator Strategies — Playwright Learning Hub</title>
+	<title>Locator Strategies — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">

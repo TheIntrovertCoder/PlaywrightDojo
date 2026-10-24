@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-	<title>Basics — Playwright Learning Hub</title>
+	<title>Basics — PlaywrightDojo</title>
 </svelte:head>
 
 <main class="mx-auto max-w-3xl px-4 py-12">
