@@ -118,11 +118,11 @@ The site is configured for static hosting on GitHub Pages:
 
 ## Cross-browser test matrix
 
-| Browser           | Version | Result (168 tests)        |
+| Browser           | Version | Result (170 tests)        |
 | ----------------- | ------- | ------------------------- |
-| Chromium (stable) | v156+   | 83 passed, 1 skipped      |
-| Firefox (stable)  | v157+   | 83 passed, 1 skipped      |
-| **Total**         | —       | **166 passed, 2 skipped** |
+| Chromium (stable) | v156+   | 84 passed, 1 skipped      |
+| Firefox (stable)  | v157+   | 84 passed, 1 skipped      |
+| **Total**         | —       | **168 passed, 2 skipped** |
 
 Run `bunx playwright test --project=chromium` or `--project=firefox` to target a single browser.
 

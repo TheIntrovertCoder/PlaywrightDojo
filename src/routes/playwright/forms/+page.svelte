@@ -4,6 +4,7 @@
 	let messageValue = $state('');
 	let agreeChecked = $state(false);
 	let planValue = $state('');
+	let departmentValue = $state('');
 	let fileName = $state<string | null>(null);
 	let submitCount = $state(0);
 	let submitError = $state<string | null>(null);
@@ -43,6 +44,7 @@
 		messageValue = '';
 		agreeChecked = false;
 		planValue = '';
+		departmentValue = '';
 		fileName = null;
 		submitCount = 0;
 		submitError = null;
@@ -170,7 +172,7 @@
 			>
 			<select
 				id="department-select"
-				bind:value={planValue}
+				bind:value={departmentValue}
 				class="w-full rounded-lg border border-line-strong px-3 py-2 text-sm focus:ring-2 focus:ring-brand focus:outline-none"
 			>
 				<option value="">Select a department</option>

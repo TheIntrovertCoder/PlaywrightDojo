@@ -79,4 +79,26 @@ test.describe('Forms module', () => {
 		await expect(page.locator('#agree-checkbox')).not.toBeChecked();
 		await expect(page.locator('#success-message')).not.toBeVisible();
 	});
+
+	test('radio group and select dropdown operate independently', async ({ page }) => {
+		// Select a plan via radio group
+		const proRadio = page.locator('input[name="plan"][value="pro"]');
+		await proRadio.check();
+		await expect(proRadio).toBeChecked();
+		await expect(page.locator('#plan-display')).toContainText('Selected: pro');
+
+		// Select a department via dropdown
+		const select = page.locator('#department-select');
+		await select.selectOption('design');
+		await expect(select).toHaveValue('design');
+
+		// Plan radio should remain selected (independence)
+		await expect(proRadio).toBeChecked();
+		await expect(page.locator('#plan-display')).toContainText('Selected: pro');
+
+		// Reset clears both
+		await page.click('#reset-btn');
+		await expect(page.locator('#plan-display')).toContainText('Selected: (none)');
+		await expect(select).toHaveValue('');
+	});
 });

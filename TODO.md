@@ -10,13 +10,13 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 
 **Source:** https://github.com/TheIntrovertCoder/PlaywrightLearn
 
-## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 166/166 tests, 2 skipped)
+## Completed (all checks pass: svelte-check, prettier, eslint, vite build, Playwright 168/168 tests, 2 skipped)
 
 | Module                  | Route                                  | Tests (×2 browsers) | Capabilities Covered                                                                                                                                                                           |
 | ----------------------- | -------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Hub (landing + sandbox) | `/`                                    | 13 × 2              | Hero, nav (11 links), footer (source link), interactive sandbox (counter, input, checkbox, radio, select, modal, toast), curriculum grid (11 cards), sandbox independence tests, [module] stub |
 | Basics                  | `/playwright/basics`                   | 6 × 2               | `goto`, `click`, `toBeVisible`, `toHaveText`, `toHaveURL`, navigation links                                                                                                                    |
-| Forms                   | `/playwright/forms`                    | 9 × 2               | `fill`, `pressSequentially`, `check`, `selectOption`, `setInputFiles`, validation                                                                                                              |
+| Forms                   | `/playwright/forms`                    | 10 × 2              | `fill`, `pressSequentially`, `check`, `selectOption`, `setInputFiles`, validation, radio/select independence                                                                                   |
 | Waiting                 | `/playwright/waiting`                  | 4 × 2               | Load states, delayed content, flash message visibility, `toBeHidden`                                                                                                                           |
 | Dialogs & Modals        | `/playwright/dialogs`                  | 7 × 2               | JS alert/confirm/prompt dialogs, custom modal open/close                                                                                                                                       |
 | Locators                | `/playwright/locators`                 | 8 × 2               | `getByRole`, `getByLabel`, `getByText`, `getByTestId`, chaining, filtering, input size assertions                                                                                              |
@@ -27,16 +27,6 @@ Build a mock website (SvelteKit + Playwright) that serves as a hands-on learning
 | Visual                  | `/playwright/visual`                   | 5 × 2               | Hero banner, hover card states, status badges, form validation states, screenshot readiness                                                                                                    |
 | API Interception        | `/playwright/api`                      | 7 × 2               | `page.route()` interception, request body mocking, error responses, `APIRequestContext` direct API, static-mode fallback                                                                       |
 | Theme Switching         | (global)                               | 8 × 2               | System/light/dark modes, localStorage persistence, prefers-color-scheme, reduced-motion respect                                                                                                |
-
-## Hosting / Deployment (GitHub Pages)
-
-- **Adapter**: conditional `adapter-static` (for Pages) / `adapter-auto` (local/dev) in `vite.config.ts`
-- **Base path**: `/PlaywrightLearn` set via `BASE_PATH` env var at build time; empty string for local dev
-- **Prerendering**: all routes prerendered (`+layout.ts: export const prerender = true`)
-- **Fallback**: `404.html` generated for client-side routing on static hosting
-- **API fallback**: `/playwright/api` detects 404 on `/api/users` and switches to in-browser seeded data with a banner; create/delete/search work locally
-- **Workflow**: `.github/workflows/deploy.yml` — Bun, configure-pages, build with `GITHUB_PAGES=true`, upload-pages-artifact, deploy-pages
-- **Local static verification**: `bun run build:pages` (sets `GITHUB_PAGES=true BASE_PATH=/PlaywrightLearn`)
 
 ## Remaining Fundamentals Gaps (the "20% → 80%" backlog)
 
@@ -51,19 +41,3 @@ These are UI E2E fundamentals not yet covered in the mock site:
 - [ ] **Test data fixtures** — beyond `test.beforeEach`, reusable fixture patterns for complex setup
 - [ ] **Visual regression baselines** — committed screenshots for `toHaveScreenshot` diffing (Visual module exists but no baselines)
 - [ ] **Runtime accessibility tests** — axe-core or similar in e2e tests (currently only eslint-plugin-svelte a11y lint)
-
-## Graphify Status (local code graph)
-
-- CLI installed at `~/.local/bin/graphify`
-- `graphify-out/graph.json` built via `graphify extract --code-only --no-cluster` — **287 nodes, 326 edges** (local AST, no API key)
-- Semantic extraction blocked: OpenRouter account has no credits and no free model access; provided OpenAI key invalid
-- Usable commands: `graphify query`, `graphify explain`, `graphify path`, `graphify affected`, `graphify god-nodes`
-- **Workflow**: always run `graphify extract ... --code-only --no-cluster` before and after each coherent change; use graph queries instead of grep for structure/impact analysis
-
-## How to Resume
-
-1. Switch out of Plan mode (if not already).
-2. Pick a gap from the Remaining list above.
-3. Add the module/demo + `page.svelte.e2e.ts` test file.
-4. Run `graphify extract ... --code-only --no-cluster`, then `bun run check`, `bun run lint`, `bun run build`, `bun run test` before committing.
-5. Update this tracker and the plan tracker.
