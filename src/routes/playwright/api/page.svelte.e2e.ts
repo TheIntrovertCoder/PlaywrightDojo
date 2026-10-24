@@ -67,7 +67,9 @@ test.describe('API Interception module', () => {
 		// Click and wait for the form submission to complete by waiting for the status message
 		await Promise.all([
 			page.click('#create-btn'),
-			page.waitForResponse((resp) => resp.url().includes('/api/users') && resp.request().method() === 'POST')
+			page.waitForResponse(
+				(resp) => resp.url().includes('/api/users') && resp.request().method() === 'POST'
+			)
 		]);
 
 		// Wait for status message to confirm creation
