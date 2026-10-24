@@ -90,7 +90,7 @@
 			<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 				<p class="text-center text-sm text-muted-fg">
 					<a
-						href="https://github.com/TheIntrovertCoder/mock-website-playwright"
+						href="https://github.com/TheIntrovertCoder/PlaywrightLearn"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="text-brand underline hover:text-brand-strong focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:outline-none"
